@@ -106,6 +106,7 @@ import {
 	getSoundboardService,
 	getStorageService,
 	getStoreBillingRepository,
+	getStoredSecretVerifier,
 	getStreamPreviewService,
 	getSweegoWebhookService,
 	getThemeService,
@@ -720,6 +721,7 @@ class RequestServices implements RequestScopedServices {
 		this.cachedOAuth2Service ??= new OAuth2Service(this.context, {
 			applicationRepository: getApplicationRepository(),
 			oauth2TokenRepository: getOAuth2TokenRepository(),
+			storedSecrets: getStoredSecretVerifier(),
 		});
 		return this.cachedOAuth2Service;
 	}
