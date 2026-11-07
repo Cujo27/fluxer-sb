@@ -2235,6 +2235,11 @@ msgstr "Không thể khởi động {requestedLabel}. Đang dùng {effectiveLabe
 msgid "{resolution} {fps} FPS"
 msgstr "{resolution} {fps} FPS"
 
+#. Footer summary under the preset name in the web stream setup modal. {resolution} is a technical token like 1080p. {fps} is a whole number of frames per second, and FPS is a technical token.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "{resolution} at {fps} FPS"
+msgstr "{resolution} ở {fps} FPS"
+
 #. Short label in the channel display name state. Keep it concise. Preserve {resolvedName}; it is inserted by code.
 #: src/features/channel/state/ChannelDisplayName.ts
 msgid "{resolvedName}'s group"
@@ -4122,6 +4127,11 @@ msgstr "Sau khi đăng nhập, hãy thử lại thao tác."
 msgid "After your account is deleted, you will not be able to delete the messages you sent"
 msgstr "Sau khi tài khoản bị xóa, bạn sẽ không thể xóa các tin nhắn đã gửi"
 
+#. Label in the sensitive content settings, shown when the Fluxer app for iPhone, iPad or Android has sent the age range that the Apple or Google account shares with apps.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "Age range from your Apple or Google account"
+msgstr "Độ tuổi từ tài khoản Apple hoặc Google của bạn"
+
 #. US state name, shown next to the country name in the mature content gate.
 #: src/features/user/utils/UserGeo.ts
 msgctxt "us-state"
@@ -4737,6 +4747,11 @@ msgstr "một tệp video đã tải lên"
 #: src/features/guild/components/modals/GuildOwnershipWarningModal.tsx
 msgid "and {remainingCount} more"
 msgstr "và {remainingCount} cộng đồng khác"
+
+#. Developer / debug surface — keep terse and technical. Label in the developer Nagbar controls panel for the Android app on Google Play banner.
+#: src/features/devtools/components/NagbarControls.ts
+msgid "Android app nagbar"
+msgstr "Thanh thông báo ứng dụng Android"
 
 #. Short label in the animation tab. Keep it concise.
 #: src/features/user/components/modals/tabs/accessibility_tab/AnimationTab.tsx
@@ -17302,9 +17317,11 @@ msgid "Frame"
 msgstr "Khung"
 
 #. Section header in the stream settings menu for frame rate options.
+#. Section label in the web stream setup modal for the stream frame rate options, in frames per second.
 #. Settings search synonym. Used to match this term when the user types it in the settings search bar.
 #: src/features/user/components/modals/tabs/UserVideoTab.tsx
 #: src/features/user/components/settings_utils/section_registry/VoiceVideoSections.ts
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
 #: src/features/voice/components/StreamSettingsMenuContent.tsx
 msgid "Frame rate"
 msgstr "Tốc độ khung hình"
@@ -17779,6 +17796,11 @@ msgstr "Nhận ảnh đại diện và banner động, huy hiệu người đăn
 #: src/features/premium/components/operator_pass/OperatorPassHoldingsSection.tsx
 msgid "Get another pass"
 msgstr "Mua thêm Operator Pass"
+
+#. Button in the Android app nagbar that opens the Fluxer listing on Google Play. {googlePlay} is the store brand name Google Play and must stay as is. Use the wording Google Play uses for its own "Get it on Google Play" badge in this language when one exists. Keep it short.
+#: src/features/app/components/layout/app_layout/nagbars/AndroidAppNagbar.tsx
+msgid "Get it on {googlePlay}"
+msgstr "Tải về từ {googlePlay}"
 
 #. Secondary Plutonium page button that starts a monthly subscription checkout.
 #: src/features/premium/components/plutonium_page/PlutoniumPageMessages.ts
@@ -27110,6 +27132,11 @@ msgstr "Mọi người có thể tạo cộng đồng riêng và tham gia bao nh
 msgid "People can only talk in communities."
 msgstr "Mọi người chỉ có thể trò chuyện trong cộng đồng."
 
+#. Description under the "Share a preview image" switch in the web stream setup modal.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "People can see a still image of what you share before they start watching."
+msgstr "Mọi người có thể xem ảnh tĩnh của nội dung bạn chia sẻ trước khi bắt đầu xem."
+
 #. Description of allowing direct messages in the setup wizard.
 #: src/features/app/components/setup/SetupPolicySteps.tsx
 msgid "People can send friend requests and direct messages."
@@ -27906,6 +27933,11 @@ msgstr "Đang chuẩn bị"
 #: src/features/user/components/settings_utils/section_registry/AppearanceSections.ts
 msgid "Presence"
 msgstr "Trạng thái hoạt động"
+
+#. Section label in the web stream setup modal. Picks the Gaming preset (motion), the Screen share preset (sharp text) or custom numbers.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Preset"
+msgstr "Cài đặt sẵn"
 
 #. Shown in the "Quick CSS" section in Settings > Themes. {shortcut} is a keyboard shortcut such as Ctrl+Alt+Shift+T.
 #: src/features/theme_settings/components/QuickCssSection.tsx
@@ -29295,6 +29327,7 @@ msgstr "Ghi nhớ kích thước và vị trí cửa sổ"
 #. Button or menu action label in the channel and chat message reactions sheet. Keep it concise. Keep the tone plain and specific.
 #. Button that clears the default reaction or deletes a tag in forum settings.
 #. Button that removes a branding image in the setup wizard.
+#. Confirm button in the dialog that deletes the stored age range.
 #. Settings search synonym. Used to match this term when the user types it in the settings search bar.
 #. Short label in the shared app saved message missing card. Keep the tone plain and specific.
 #: src/features/app/components/setup/SetupBrandingAssetField.tsx
@@ -29309,6 +29342,7 @@ msgstr "Ghi nhớ kích thước và vị trí cửa sổ"
 #: src/features/guild/components/modals/guild_tabs/GuildVanityURLTab.tsx
 #: src/features/ui/action_menu/GroupDMContextMenu.tsx
 #: src/features/ui/action_menu/UserContextMenu.tsx
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
 #: src/features/user/components/settings_utils/section_registry/SharedDescriptors.ts
 #: src/features/webhook/components/WebhookListItem.tsx
 msgid "Remove"
@@ -29345,6 +29379,11 @@ msgstr "Xóa {userName} khỏi nhóm?"
 #: src/features/relationship/utils/RelationshipActionUtils.tsx
 msgid "Remove {userName} from your friends?"
 msgstr "Xóa {userName} khỏi danh sách bạn bè?"
+
+#. Button in the sensitive content settings that opens a confirmation to delete the stored age range.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "Remove age range"
+msgstr "Xóa độ tuổi"
 
 #. Confirm button label on the remove-all-reactions alert. Destructive.
 #: src/features/channel/components/MessageActionUtils.tsx
@@ -29552,6 +29591,11 @@ msgstr "Xóa trình dịch"
 #: src/features/user/components/modals/tabs/my_profile_tab/ProfileBadgeSettings.tsx
 msgid "Remove when you first bought {premiumProductName} from your badge"
 msgstr "Xóa ngày bạn mua {premiumProductName} lần đầu khỏi huy hiệu"
+
+#. Title of the confirmation shown before deleting the age range from an Apple or Google account.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "Remove your age range?"
+msgstr "Xóa độ tuổi của bạn?"
 
 #. Status badge for the application to Explore, shown in the "Explore" tab in community settings. The community was removed from Explore.
 #: src/features/guild/components/modals/guild_tabs/GuildDiscoveryTab.tsx
@@ -30471,8 +30515,10 @@ msgid "Resizing, maximizing, and window snapping depend on the compositor. Wayla
 msgstr "Thay đổi kích thước, phóng to và gắn cửa sổ phụ thuộc vào trình tổng hợp. Wayland khi không có trang trí phía máy khách có thể không cung cấp các điểm kéo. Khởi chạy bằng --ozone-platform=x11 nếu cửa sổ bị kẹt."
 
 #. Section header in the stream settings menu for resolution options.
+#. Section label in the web stream setup modal for the stream resolution options.
 #. Settings search synonym. Used to match this term when the user types it in the settings search bar.
 #: src/features/user/components/settings_utils/section_registry/VoiceVideoSections.ts
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
 #: src/features/voice/components/StreamSettingsMenuContent.tsx
 msgid "Resolution"
 msgstr "Độ phân giải"
@@ -32908,6 +32954,11 @@ msgstr "Một vài người đang nhập..."
 msgid "Share"
 msgstr "Chia sẻ"
 
+#. Switch label in the web stream setup modal. When on, Fluxer uploads a still image of the stream so people can see it before watching.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Share a preview image"
+msgstr "Chia sẻ ảnh xem trước"
+
 #. Button or menu action label in the buttons tab. Keep it concise.
 #: src/features/user/components/modals/tabs/component_gallery_tab/ComponentGalleryTabButtonsTab.tsx
 msgid "Share action."
@@ -32917,6 +32968,11 @@ msgstr "Hành động chia sẻ."
 #: src/features/user/components/settings_utils/section_registry/ThemesSections.ts
 msgid "Share and back up"
 msgstr "Chia sẻ và sao lưu"
+
+#. Switch label in the web stream setup modal.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Share audio"
+msgstr "Chia sẻ âm thanh"
 
 #. Plutonium page perk card body about upload size. freeSize is a formatted size such as 25 MB.
 #: src/features/premium/components/plutonium_page/PlutoniumPageMessages.ts
@@ -32962,7 +33018,9 @@ msgstr "Chia sẻ những gì đội ngũ của chúng tôi cần để đánh g
 msgid "Share with a friend"
 msgstr "Chia sẻ với bạn bè"
 
+#. Title of the modal shown on web before the browser screen picker opens. The user picks stream quality here first.
 #. Voice control button or tooltip label for starting screen sharing.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
 #: src/features/voice/utils/VoiceMessageDescriptors.ts
 msgid "Share your screen"
 msgstr "Chia sẻ màn hình của bạn"
@@ -33012,8 +33070,8 @@ msgstr "Chữ sắc nét ở 720p, tối đa 30 FPS"
 
 #. Description for the high-tier Screen share streaming preset (Plutonium). Resolution and frame rate are technical tokens.
 #: src/features/voice/components/StreamSettingsMenuContent.tsx
-msgid "Sharp text at up to 4K, up to 15 FPS"
-msgstr "Chữ sắc nét ở độ phân giải lên tới 4K, tối đa 15 FPS"
+msgid "Sharp text at up to 1080p, 30 FPS"
+msgstr "Chữ sắc nét lên đến 1080p, 30 FPS"
 
 #. Settings search synonym. Used to match this term when the user types it in the settings search bar.
 #: src/features/user/components/settings_utils/search_index/MyProfileIndex.ts
@@ -33447,8 +33505,11 @@ msgstr "Hiện các kênh đã tắt tiếng"
 msgid "Show my own camera"
 msgstr "Hiện camera của tôi"
 
+#. Toggle label in the mobile video settings bottom sheet. Controls whether the local screen share tile is in the call view.
 #. Voice display preference checkbox that controls whether the current user sees their own screen share tile.
 #: src/features/ui/action_menu/items/voice_participant_menu_data/shared.ts
+#: src/features/voice/components/bottomsheets/VoiceSettingsBottomSheets.tsx
+#: src/features/voice/components/VoiceSettingsMenus.tsx
 msgid "Show my screen share"
 msgstr "Hiển thị chia sẻ màn hình của tôi"
 
@@ -34047,7 +34108,7 @@ msgid "Skip this step"
 msgstr "Bỏ qua bước này"
 
 #. Accessible skip-link label for keyboard users.
-#: src/app/App.tsx
+#: src/app/SkipToContentLink.tsx
 msgid "Skip to content"
 msgstr "Chuyển đến nội dung chính"
 
@@ -34932,6 +34993,11 @@ msgstr "Bắt đầu ghi âm"
 msgid "Start searches with <0>{peoplePrefix}</0> <1>{textChannelPrefix}</1> <2>{voiceChannelPrefix}</2> <3>{communityPrefix}</3> to narrow down results."
 msgstr "Bắt đầu tìm kiếm bằng <0>{peoplePrefix}</0> <1>{textChannelPrefix}</1> <2>{voiceChannelPrefix}</2> <3>{communityPrefix}</3> để thu hẹp kết quả."
 
+#. Primary button in the web stream setup modal. Opens the browser's screen picker and starts sharing.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Start sharing"
+msgstr "Bắt đầu chia sẻ"
+
 #. Native macOS Edit > Speech submenu item that starts reading the selected text aloud. Imperative verb.
 #: src/features/platform/utils/DesktopLocaleBridge.ts
 msgid "Start speaking"
@@ -35400,11 +35466,6 @@ msgstr "Đang tải luồng"
 #: src/features/voice/components/voice_participant_tile/shared.ts
 msgid "Stream ended"
 msgstr "Luồng trực tiếp đã kết thúc"
-
-#. Overlay text on a participant tile when the local user hid the remote screen share.
-#: src/features/voice/components/voice_participant_tile/shared.ts
-msgid "Stream hidden"
-msgstr "Đã ẩn luồng"
 
 #. Plutonium page perk card title about stream quality.
 #: src/features/premium/components/plutonium_page/PlutoniumPageMessages.ts
@@ -36541,6 +36602,11 @@ msgstr "Tệp chứa mã thông báo xác minh mà chúng tôi sẽ tìm nạp t
 #: src/features/messaging/components/alerts/FileSizeTooLargeModal.tsx
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Tệp bạn đang tải lên vượt quá giới hạn kích thước tối đa là {maxSizeFormatted}."
+
+#. Helper text under "Age range from your Apple or Google account" in the sensitive content settings.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "The Fluxer app for iPhone, iPad or Android sent us this age range. If it shows that you're 18 or older, you can see 18+ content in the UK and Brazil. It doesn't change your date of birth."
+msgstr "Ứng dụng Fluxer cho iPhone, iPad hoặc Android đã gửi cho chúng tôi độ tuổi này. Nếu độ tuổi này cho thấy bạn từ 18 tuổi trở lên, bạn có thể xem nội dung 18+ ở Vương quốc Anh và Brazil. Độ tuổi này không thay đổi ngày sinh của bạn."
 
 #. Setup wizard body explaining the push relay.
 #: src/features/app/components/setup/SetupPolicySteps.tsx
@@ -42161,10 +42227,20 @@ msgstr "Chúng tôi không thể đọc tệp CSS đó."
 msgid "We couldn't read this theme. It may be corrupted or invalid."
 msgstr "Không đọc được chủ đề này. Có thể chủ đề bị lỗi hoặc không hợp lệ."
 
+#. Error shown when deleting the stored age range fails.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "We couldn't remove your age range. Please try again."
+msgstr "Chúng tôi không thể xóa độ tuổi của bạn. Vui lòng thử lại."
+
 #. Error message after saving a theme failed in Settings > Themes or the quick CSS editor window.
 #: src/features/theme_settings/utils/ThemeSettingsErrorModal.ts
 msgid "We couldn't save that theme."
 msgstr "Chúng tôi không thể lưu chủ đề đó."
+
+#. Body of the confirmation shown before deleting the age range. App Attest is an Apple product name and stays in English.
+#: src/features/user/components/modals/tabs/privacy_safety_tab/AgeRangeSection.tsx
+msgid "We delete the age range, the time we got it and the App Attest keys for your Apple devices. In the UK and Brazil, you can't see 18+ content until the app sends an age range again. The app may send it again later if your Apple or Google account still shares it with Fluxer."
+msgstr "Chúng tôi xóa độ tuổi, thời điểm chúng tôi nhận được nó và các khóa App Attest cho thiết bị Apple của bạn. Ở Vương quốc Anh và Brazil, bạn không thể xem nội dung 18+ cho đến khi ứng dụng gửi lại độ tuổi. Ứng dụng có thể gửi lại độ tuổi của bạn sau này nếu tài khoản Apple hoặc Google của bạn vẫn chia sẻ nó với Fluxer."
 
 #. Modal body for existing-subscription block. Directs the user to the billing portal and addresses the just-paid race case. Keep plain and reassuring.
 #: src/features/app/components/dialogs/components/plutonium/hooks/useCheckoutActions.tsx
@@ -43223,6 +43299,11 @@ msgstr "Bạn có thể hoàn tiền toàn bộ đến hết {date}."
 #: src/features/app/components/dialogs/components/plutonium/RefundsSection.tsx
 msgid "You can get a full refund until {date}. This also ends your subscription right away."
 msgstr "Bạn có thể hoàn tiền toàn bộ đến hết {date}. Việc này cũng sẽ kết thúc gói đăng ký của bạn ngay lập tức."
+
+#. Nagbar body telling people that the Fluxer app for Android phones can be installed from Google Play. {googlePlay} is the store brand name Google Play and must stay as is. Keep Fluxer and Android untranslated. Keep the tone calm and plain.
+#: src/features/app/components/layout/app_layout/nagbars/AndroidAppNagbar.tsx
+msgid "You can get the Fluxer app for Android on {googlePlay} and chat from your phone."
+msgstr "Bạn có thể tải ứng dụng Fluxer cho Android trên {googlePlay} và trò chuyện từ điện thoại."
 
 #. Line under "Full refund" in the Payments settings. {amount} is the price paid, with currency, and {date} is the last day of the refund window, such as Nov 2, 2026. Both are filled in by code.
 #: src/features/app/components/dialogs/components/plutonium/RefundsSection.tsx
@@ -44283,6 +44364,11 @@ msgstr "Trình duyệt của bạn đã chặn khóa truy cập vì địa chỉ
 msgid "Your browser blocked the passkey because this page is not on {rpId}, the passkey domain of this instance. Ask the instance owner to check the passkey domain setting."
 msgstr "Trình duyệt của bạn đã chặn khóa truy cập vì trang này không thuộc {rpId}, miền khóa truy cập của phiên bản này. Hãy yêu cầu chủ sở hữu phiên bản kiểm tra cài đặt miền khóa truy cập."
 
+#. Description under the "Share audio" switch in the web stream setup modal. The browser picker owns the final audio choice.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Your browser lets you choose whether to include audio when you pick what to share."
+msgstr "Trình duyệt cho phép bạn chọn có kèm âm thanh hay không khi chọn nội dung để chia sẻ."
+
 #. Body of the browser-audio-required modal explaining why the user must click before audio can play.
 #: src/features/voice/components/modals/AudioPlaybackPermissionModal.tsx
 msgid "Your browser requires user interaction before audio can be played. Click the button below to enable voice chat."
@@ -44694,6 +44780,11 @@ msgstr "Chất lượng đã lưu của bạn {savedResolution} ở tốc độ 
 msgctxt "screen-share"
 msgid "Your screen share could not be published with a compatible video codec, so it was stopped. Try sharing again."
 msgstr "Không thể phát lượt chia sẻ màn hình của bạn bằng codec video tương thích, vì vậy lượt chia sẻ đã bị dừng. Hãy thử chia sẻ lại."
+
+#. Footer summary under the preset name in the web stream setup modal when the Source resolution is picked. {fps} is a whole number of frames per second, and FPS is a technical token.
+#: src/features/voice/components/modals/screen_share_picker_modal/WebStreamSetupModal.tsx
+msgid "Your screen's resolution at {fps} FPS"
+msgstr "Độ phân giải màn hình của bạn ở {fps} FPS"
 
 #. Alert on the setup token screen when the token was refused while creating the account.
 #: src/features/app/components/setup/SelfHostedSetupWizardGate.tsx

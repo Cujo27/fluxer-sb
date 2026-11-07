@@ -310,6 +310,9 @@ func dial(ctx context.Context, host string) (*Engine, *conn, error) {
 	}
 	if _, local := socketPath(host); local && runtime.GOOS == "linux" && e.Desktop == "" {
 		e.DataRoot = info.Info.DockerRootDir
+		if e.Kind == Docker && !e.Rootless && containerdStore(info.Info.DriverStatus) {
+			e.DataRoot = containerdRoot
+		}
 	}
 	if e.Kind == Podman {
 		sum := sha256.Sum256([]byte(info.Info.Name + "\n" + info.Info.DockerRootDir))
@@ -364,6 +367,8 @@ func contextFor(host string) string {
 	}
 	return ""
 }
+
+func HostPlatform() string { return platform(runtime.GOARCH) }
 
 func platform(arch string) string {
 	switch strings.ToLower(arch) {
