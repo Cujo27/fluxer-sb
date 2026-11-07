@@ -4,6 +4,19 @@ import type {RouteRateLimitConfig} from '@app/api/middleware/RateLimitMiddleware
 import {ms} from 'itty-time';
 
 export const GuildRateLimitConfigs = {
+	SOUNDBOARD_READ: {
+		bucket: 'soundboard:read::guild_id',
+		config: {limit: 100, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+	SOUNDBOARD_CREATE: {
+		bucket: 'soundboard:create::guild_id',
+		config: {limit: 10, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+	SOUNDBOARD_MUTATE: {
+		bucket: 'soundboard:mutate::guild_id',
+		config: {limit: 20, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+	SOUNDBOARD_PLAY: {bucket: 'soundboard:play', config: {limit: 5, windowMs: ms('5 seconds')}} as RouteRateLimitConfig,
 	GUILD_CREATE: {
 		bucket: 'guild:create',
 		config: {limit: 10, windowMs: ms('1 minute')},

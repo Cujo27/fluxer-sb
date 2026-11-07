@@ -202,7 +202,9 @@ export const Permissions = {
 	MANAGE_EXPRESSIONS: 1n << 30n,
 	USE_EXTERNAL_STICKERS: 1n << 37n,
 	MODERATE_MEMBERS: 1n << 40n,
+	USE_SOUNDBOARD: 1n << 42n,
 	CREATE_EXPRESSIONS: 1n << 43n,
+	USE_EXTERNAL_SOUNDS: 1n << 45n,
 	PIN_MESSAGES: 1n << 51n,
 	BYPASS_SLOWMODE: 1n << 52n,
 	UPDATE_RTC_REGION: 1n << 53n,
@@ -241,6 +243,8 @@ export const PermissionsDescriptions: Record<keyof typeof Permissions, string> =
 	MANAGE_EXPRESSIONS: 'Allows management of guild expressions',
 	USE_EXTERNAL_STICKERS: 'Allows using stickers from other guilds',
 	MODERATE_MEMBERS: 'Allows timing out users',
+	USE_SOUNDBOARD: 'Allows playing soundboard sounds in voice channels',
+	USE_EXTERNAL_SOUNDS: 'Allows using soundboard sounds from other guilds',
 	CREATE_EXPRESSIONS: 'Allows creating guild expressions',
 	PIN_MESSAGES: 'Allows pinning messages',
 	BYPASS_SLOWMODE: 'Allows bypassing slowmode',
@@ -263,6 +267,8 @@ export const DEFAULT_PERMISSIONS =
 	Permissions.USE_VAD |
 	Permissions.CHANGE_NICKNAME |
 	Permissions.USE_EXTERNAL_STICKERS |
+	Permissions.USE_SOUNDBOARD |
+	Permissions.USE_EXTERNAL_SOUNDS |
 	Permissions.VIEW_CHANNEL_MEMBERS;
 export const ElevatedPermissions =
 	Permissions.KICK_MEMBERS |

@@ -100,6 +100,7 @@ const STATIC_ASSET_PREFIXES: &[&str] = &[
     "/emoji/",
     "/libs/",
     "/marketing/",
+    "/soundboard/",
     "/web/",
 ];
 

@@ -103,6 +103,7 @@ import {
 	getReadStateRequestService,
 	getReadStateService,
 	getReportRepository,
+	getSoundboardService,
 	getStorageService,
 	getStoreBillingRepository,
 	getStreamPreviewService,
@@ -405,6 +406,9 @@ class RequestServices implements RequestScopedServices {
 
 	get entranceSoundService() {
 		return getEntranceSoundService();
+	}
+	get soundboardService() {
+		return getSoundboardService();
 	}
 
 	get entranceSoundPlayService() {

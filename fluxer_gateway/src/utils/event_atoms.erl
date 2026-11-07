@@ -48,6 +48,10 @@ core_event_map() ->
     #{
         <<"AUTH_SESSION_CHANGE">> => auth_session_change,
         <<"ENTRANCE_SOUND_PLAY">> => entrance_sound_play,
+        <<"VOICE_CHANNEL_EFFECT_SEND">> => voice_channel_effect_send,
+        <<"GUILD_SOUNDBOARD_SOUND_CREATE">> => guild_soundboard_sound_create,
+        <<"GUILD_SOUNDBOARD_SOUND_UPDATE">> => guild_soundboard_sound_update,
+        <<"GUILD_SOUNDBOARD_SOUND_DELETE">> => guild_soundboard_sound_delete,
         <<"FAVORITE_MEME_CREATE">> => favorite_meme_create,
         <<"FAVORITE_MEME_DELETE">> => favorite_meme_delete,
         <<"FAVORITE_MEME_UPDATE">> => favorite_meme_update,

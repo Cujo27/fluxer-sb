@@ -29,6 +29,10 @@ export type ReportID = Brand<bigint, 'ReportID'>;
 export type MemeID = Brand<bigint, 'MemeID'>;
 export type ApplicationID = Brand<bigint, 'ApplicationID'>;
 export type EntranceSoundID = Brand<bigint, 'EntranceSoundID'>;
+export type SoundboardSoundID = Brand<bigint, 'SoundboardSoundID'>;
+export function createSoundboardSoundID(id: bigint): SoundboardSoundID {
+	return brand<bigint, 'SoundboardSoundID'>(id);
+}
 export type InviteCode = Brand<string, 'InviteCode'>;
 export type VanityURLCode = Brand<string, 'VanityURLCode'>;
 export type EmailVerificationToken = Brand<string, 'EmailVerificationToken'>;

@@ -21,6 +21,8 @@ import {createNatsGifProvider} from '@app/api/gif/NatsGifProvider';
 import {GuildAuditLogService} from '@app/api/guild/GuildAuditLogService';
 import {GuildDiscoveryRepository} from '@app/api/guild/repositories/GuildDiscoveryRepository';
 import {GuildRepository} from '@app/api/guild/repositories/GuildRepository';
+import {GuildSoundboardRepository} from '@app/api/guild/repositories/GuildSoundboardRepository';
+import {SoundboardService} from '@app/api/guild/services/content/SoundboardService';
 import {GuildDiscoveryService} from '@app/api/guild/services/GuildDiscoveryService';
 import {AssetDeletionQueue} from '@app/api/infrastructure/AssetDeletionQueue';
 import {AvatarService} from '@app/api/infrastructure/AvatarService';
@@ -419,6 +421,23 @@ export const getAdminArchiveService = singleton(
 		),
 );
 const getEntranceSoundRepository = singleton(() => new EntranceSoundRepository());
+export const getSoundboardService = singleton(
+	() =>
+		new SoundboardService(
+			new GuildSoundboardRepository(),
+			getGuildRepository(),
+			getUserRepository(),
+			getChannelRepository(),
+			getGatewayService(),
+			getStorageService(),
+			getMediaService(),
+			getSnowflakeService(),
+			getCacheService(),
+			getGuildAuditLogService(),
+			getAssetDeletionQueue(),
+			getLimitConfigService(),
+		),
+);
 export const getEntranceSoundService = singleton(
 	() => new EntranceSoundService(getEntranceSoundRepository(), getStorageService(), getMediaService()),
 );

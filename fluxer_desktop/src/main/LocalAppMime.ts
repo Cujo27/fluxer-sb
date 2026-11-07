@@ -27,6 +27,7 @@ const CONTENT_TYPES_BY_EXTENSION: ReadonlyMap<string, string> = new Map([
 	['.mp4', 'video/mp4'],
 	['.webm', 'video/webm'],
 	['.ogg', 'audio/ogg'],
+	['.wav', 'audio/wav'],
 	['.txt', 'text/plain; charset=utf-8'],
 	['.xml', 'application/xml; charset=utf-8'],
 	['.webmanifest', 'application/manifest+json'],

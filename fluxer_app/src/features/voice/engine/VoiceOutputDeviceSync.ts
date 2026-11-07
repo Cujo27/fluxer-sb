@@ -111,8 +111,7 @@ async function applyOutputDeviceToWebAudioMixer(room: Room, deviceId: string): P
 	if (!audioContext) {
 		return;
 	}
-	const applySink = (sinkId: string) =>
-		audioContext.setSinkId ? audioContext.setSinkId(sinkId) : setVoiceAudioContextOutput(audioContext, sinkId);
+	const applySink = (sinkId: string) => setVoiceAudioContextOutput(audioContext, sinkId);
 	const sinkId = normalizeSinkIdForBrowserApi(deviceId);
 	try {
 		await applySink(sinkId);

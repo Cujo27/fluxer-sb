@@ -47,14 +47,14 @@ const MANAGE_NICKNAMES_PERMISSION_DESCRIPTION_DESCRIPTOR = msg({
 		'Permission description in the role/permission editor for the Manage Nicknames permission. The user can rename other members in this community.',
 });
 const CREATE_EMOJI_AND_STICKERS_PERMISSION_DESCRIPTION_DESCRIPTOR = msg({
-	message: 'Upload new emoji and stickers, and manage your own creations.',
+	message: 'Upload new emoji, stickers, and soundboard sounds, and manage your own creations.',
 	comment:
-		'Permission description in the role/permission editor for the Create Emoji & Stickers permission. Lets the member upload new custom expressions and edit the ones they uploaded.',
+		'Permission description for Create Expressions. Lets the member upload emoji, stickers, and soundboard sounds and manage their own uploads.',
 });
 const MANAGE_EMOJI_AND_STICKERS_PERMISSION_DESCRIPTION_DESCRIPTOR = msg({
-	message: 'Edit or delete emoji and stickers created by other members.',
+	message: 'Edit or delete emoji, stickers, and soundboard sounds created by other members.',
 	comment:
-		'Permission description in the role/permission editor for the Manage Emoji & Stickers permission. Lets the member moderate expressions uploaded by anyone in the community.',
+		'Permission description for Manage Expressions. Lets the member moderate emoji, stickers, and soundboard sounds uploaded by anyone in the community.',
 });
 const MANAGE_WEBHOOKS_PERMISSION_DESCRIPTION_DESCRIPTOR = msg({
 	message: 'Create, edit, or delete webhooks.',
@@ -389,12 +389,12 @@ const MANAGE_NICKNAMES_DESCRIPTOR = msg({
 	comment: "Permission name: allows changing other members' nicknames.",
 });
 const CREATE_EMOJI_AND_STICKERS_DESCRIPTOR = msg({
-	message: 'Create emoji & stickers',
-	comment: 'Permission name: allows uploading custom emoji and stickers.',
+	message: 'Create Expressions',
+	comment: 'Permission name: allows uploading custom emoji, stickers, and soundboard sounds.',
 });
 const MANAGE_EMOJI_AND_STICKERS_DESCRIPTOR = msg({
-	message: 'Manage emoji & stickers',
-	comment: 'Permission name: allows editing or deleting custom emoji and stickers.',
+	message: 'Manage Expressions',
+	comment: 'Permission name: allows editing or deleting custom emoji, stickers, and soundboard sounds.',
 });
 const MANAGE_WEBHOOKS_DESCRIPTOR = msg({
 	message: 'Manage webhooks',
@@ -552,6 +552,8 @@ const SEND_MESSAGES_IN_THREADS_PERMISSION_DESCRIPTION_DESCRIPTOR = msg({
 	comment: 'Description of the Send messages in threads permission.',
 });
 const PERMISSION_TITLE_DESCRIPTORS = new Map<bigint, MessageDescriptor>([
+	[Permissions.USE_SOUNDBOARD, msg`Use Soundboard`],
+	[Permissions.USE_EXTERNAL_SOUNDS, msg`Use External Sounds`],
 	[ThreadPermissionFlags.MANAGE_THREADS, MANAGE_THREADS_DESCRIPTOR],
 	[ThreadPermissionFlags.CREATE_PUBLIC_THREADS, CREATE_PUBLIC_THREADS_DESCRIPTOR],
 	[ThreadPermissionFlags.CREATE_PRIVATE_THREADS, CREATE_PRIVATE_THREADS_DESCRIPTOR],
@@ -601,6 +603,8 @@ const PERMISSION_TITLE_DESCRIPTORS = new Map<bigint, MessageDescriptor>([
 	[Permissions.UPDATE_RTC_REGION, SET_VOICE_REGION_DESCRIPTOR],
 ]);
 const PERMISSION_DESCRIPTION_DESCRIPTORS = new Map<bigint, MessageDescriptor>([
+	[Permissions.USE_SOUNDBOARD, msg`Allows members to play soundboard sounds in voice channels.`],
+	[Permissions.USE_EXTERNAL_SOUNDS, msg`Allows members to play soundboard sounds from other communities.`],
 	[ThreadPermissionFlags.MANAGE_THREADS, MANAGE_THREADS_PERMISSION_DESCRIPTION_DESCRIPTOR],
 	[ThreadPermissionFlags.CREATE_PUBLIC_THREADS, CREATE_PUBLIC_THREADS_PERMISSION_DESCRIPTION_DESCRIPTOR],
 	[ThreadPermissionFlags.CREATE_PRIVATE_THREADS, CREATE_PRIVATE_THREADS_PERMISSION_DESCRIPTION_DESCRIPTOR],

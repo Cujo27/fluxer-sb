@@ -8,6 +8,7 @@ import {GuildEmojiController} from '@app/api/guild/controllers/GuildEmojiControl
 import {GuildMemberController} from '@app/api/guild/controllers/GuildMemberController';
 import {GuildMemberSearchController} from '@app/api/guild/controllers/GuildMemberSearchController';
 import {GuildRoleController} from '@app/api/guild/controllers/GuildRoleController';
+import {GuildSoundboardController} from '@app/api/guild/controllers/GuildSoundboardController';
 import {GuildStickerController} from '@app/api/guild/controllers/GuildStickerController';
 import {GuildVisitController} from '@app/api/guild/controllers/GuildVisitController';
 import type {HonoApp} from '@app/api/types/HonoEnv';
@@ -19,6 +20,7 @@ export function GuildController(app: HonoApp) {
 	GuildRoleController(app);
 	GuildChannelController(app);
 	GuildEmojiController(app);
+	GuildSoundboardController(app);
 	GuildStickerController(app);
 	GuildAuditLogController(app);
 	GuildDiscoveryController(app);

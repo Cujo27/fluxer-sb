@@ -7,6 +7,7 @@ import GuildEmojiTab from '@app/features/guild/components/modals/guild_tabs/Guil
 import GuildInvitesTab from '@app/features/guild/components/modals/guild_tabs/GuildInvitesTab';
 import GuildModerationTab from '@app/features/guild/components/modals/guild_tabs/GuildModerationTab';
 import GuildRolesTab from '@app/features/guild/components/modals/guild_tabs/GuildRolesTab';
+import GuildSoundboardTab from '@app/features/guild/components/modals/guild_tabs/GuildSoundboardTab';
 import GuildStickersTab from '@app/features/guild/components/modals/guild_tabs/GuildStickersTab';
 import GuildVanityURLTab from '@app/features/guild/components/modals/guild_tabs/GuildVanityURLTab';
 import GuildWebhooksTab from '@app/features/guild/components/modals/guild_tabs/GuildWebhooksTab';
@@ -25,6 +26,7 @@ const GUILD_SETTINGS_TAB_COMPONENTS: Record<GuildSettingsTabType, GuildSettingsT
 	audit_log: GuildAuditLogTab,
 	emoji: GuildEmojiTab,
 	stickers: GuildStickersTab,
+	soundboard: GuildSoundboardTab,
 	discovery: GuildDiscoveryTab,
 	vanity_url: GuildVanityURLTab,
 	webhooks: GuildWebhooksTab,

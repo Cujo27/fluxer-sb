@@ -7,6 +7,9 @@ import {
 import {AuditLogActionType} from '@fluxer/constants/src/AuditLogActionType';
 
 const targetTypeMap: Partial<Record<AuditLogActionType, AuditLogTargetType>> = {
+	[AuditLogActionType.SOUNDBOARD_SOUND_CREATE]: AuditLogTargetType.SOUNDBOARD,
+	[AuditLogActionType.SOUNDBOARD_SOUND_UPDATE]: AuditLogTargetType.SOUNDBOARD,
+	[AuditLogActionType.SOUNDBOARD_SOUND_DELETE]: AuditLogTargetType.SOUNDBOARD,
 	[AuditLogActionType.GUILD_UPDATE]: AuditLogTargetType.GUILD,
 	[AuditLogActionType.CHANNEL_CREATE]: AuditLogTargetType.CHANNEL,
 	[AuditLogActionType.CHANNEL_UPDATE]: AuditLogTargetType.CHANNEL,
@@ -52,6 +55,7 @@ export function getTargetType(actionType: AuditLogActionType): AuditLogTargetTyp
 }
 
 const createActions = new Set<AuditLogActionType>([
+	AuditLogActionType.SOUNDBOARD_SOUND_CREATE,
 	AuditLogActionType.CHANNEL_CREATE,
 	AuditLogActionType.CHANNEL_OVERWRITE_CREATE,
 	AuditLogActionType.ROLE_CREATE,
@@ -64,6 +68,7 @@ const createActions = new Set<AuditLogActionType>([
 	AuditLogActionType.THREAD_CREATE,
 ]);
 const updateActions = new Set<AuditLogActionType>([
+	AuditLogActionType.SOUNDBOARD_SOUND_UPDATE,
 	AuditLogActionType.GUILD_UPDATE,
 	AuditLogActionType.CHANNEL_UPDATE,
 	AuditLogActionType.CHANNEL_OVERWRITE_UPDATE,

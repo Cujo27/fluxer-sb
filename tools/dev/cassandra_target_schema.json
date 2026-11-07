@@ -5821,6 +5821,22 @@
 			"options": "CLUSTERING ORDER BY (applied_at DESC, guild_id DESC)"
 		},
 		{
+			"name": "guild_soundboard_sounds",
+			"columns": [
+				{"name": "guild_id", "type": "bigint"},
+				{"name": "sound_id", "type": "bigint"},
+				{"name": "creator_id", "type": "bigint"},
+				{"name": "name", "type": "text"},
+				{"name": "volume", "type": "double"},
+				{"name": "emoji_id", "type": "bigint"},
+				{"name": "emoji_name", "type": "text"},
+				{"name": "content_type", "type": "text"},
+				{"name": "duration_ms", "type": "int"}
+			],
+			"primary_key": "((guild_id), sound_id)",
+			"options": ""
+		},
+		{
 			"name": "guild_emojis",
 			"columns": [
 				{

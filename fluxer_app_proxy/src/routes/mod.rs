@@ -122,3 +122,55 @@ pub(crate) fn capacity_refused_response() -> Response {
     headers.insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
     response
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::{AppProxyConfig, HttpUrl};
+    use crate::csp::CompiledCspPolicy;
+    use axum::body::{Body, to_bytes};
+    use std::sync::Arc;
+    use tower::ServiceExt;
+
+    #[tokio::test]
+    async fn default_sound_requests_serve_wav_bytes_instead_of_the_spa_shell() {
+        let mut config = AppProxyConfig::from_env();
+        config.static_dir = format!("{}/../fluxer_static", env!("CARGO_MANIFEST_DIR"));
+        // No SPA upstream is needed to serve an audio asset.
+        config.index_upstream_url =
+            Some(HttpUrl::parse("test upstream", "http://127.0.0.1:1/").unwrap());
+        config.self_hosted = false;
+        let csp = Arc::new(CompiledCspPolicy::from_config(&config).unwrap());
+        let state = AppState::load(Arc::new(config), csp, reqwest::Client::new())
+            .await
+            .unwrap();
+        let router = build_router(state);
+        for id in 1..=6 {
+            let response = router
+                .clone()
+                .oneshot(
+                    Request::builder()
+                        .uri(format!("/soundboard/{id}.wav"))
+                        .body(Body::empty())
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(response.status(), axum::http::StatusCode::OK);
+            assert_eq!(response.headers()[header::CONTENT_TYPE], "audio/wav");
+            let bytes = to_bytes(response.into_body(), 1024 * 1024).await.unwrap();
+            assert_eq!(&bytes[..4], b"RIFF");
+            assert_eq!(&bytes[8..12], b"WAVE");
+        }
+        let missing = router
+            .oneshot(
+                Request::builder()
+                    .uri("/soundboard/missing.wav")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(missing.status(), axum::http::StatusCode::NOT_FOUND);
+    }
+}

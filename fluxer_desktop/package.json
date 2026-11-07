@@ -9,6 +9,7 @@
 	"type": "module",
 	"main": "dist/main/index.js",
 	"scripts": {
+		"test": "vitest run",
 		"build": "node scripts/build.mjs",
 		"generate:windows-badges": "electron scripts/generate-windows-badges.mjs",
 		"set-channel": "../tools/ci/run.sh build-desktop --step set_build_channel",
@@ -28,6 +29,7 @@
 		"velopack": "1.2.0"
 	},
 	"devDependencies": {
+		"vitest": "catalog:",
 		"@types/node": "24.19.2",
 		"electron": "44.10.0",
 		"electron-builder": "27.0.0-alpha.8",

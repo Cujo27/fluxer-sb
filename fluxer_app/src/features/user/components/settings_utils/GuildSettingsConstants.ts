@@ -16,6 +16,7 @@ import {
 	type Icon,
 	type IconWeight,
 	LinkIcon,
+	MusicNotesIcon,
 	ProhibitIcon,
 	ShieldIcon,
 	SmileyIcon,
@@ -92,6 +93,7 @@ export type GuildSettingsTabType =
 	| 'roles'
 	| 'emoji'
 	| 'stickers'
+	| 'soundboard'
 	| 'moderation'
 	| 'audit_log'
 	| 'webhooks'
@@ -170,6 +172,13 @@ const GUILD_SETTINGS_TABS_DESCRIPTORS: Array<GuildSettingsTabDescriptor> = [
 		category: 'expressions',
 		label: STICKERS_DESCRIPTOR,
 		icon: StickerIcon,
+		permission: [Permissions.CREATE_EXPRESSIONS, Permissions.MANAGE_EXPRESSIONS],
+	},
+	{
+		type: 'soundboard',
+		category: 'expressions',
+		label: msg({message: 'Soundboard', context: 'community-settings-tab'}),
+		icon: MusicNotesIcon,
 		permission: [Permissions.CREATE_EXPRESSIONS, Permissions.MANAGE_EXPRESSIONS],
 	},
 	{

@@ -19,6 +19,11 @@ import {
 	MESSAGE_PIN_SUMMARY,
 	MESSAGE_UNPIN_IN_CHANNEL_SUMMARY,
 	MESSAGE_UNPIN_SUMMARY,
+	SOUNDBOARD_CREATE_SUMMARY,
+	SOUNDBOARD_DELETE_SUMMARY,
+	SOUNDBOARD_RENAME_ROW,
+	SOUNDBOARD_UPDATE_SUMMARY,
+	SOUNDBOARD_VOLUME_ROW,
 	STICKER_CREATE_SUMMARY,
 	STICKER_CREATE_UNNAMED_SUMMARY,
 	STICKER_DELETE_SUMMARY,
@@ -56,6 +61,53 @@ interface NameChange {
 	oldName: string;
 	newName: string;
 }
+
+function presentSoundboardSound(
+	entry: GuildAuditLogEntryResponse,
+	descriptor: MessageDescriptor,
+): AuditLogDomainResult {
+	const name =
+		readNewString(entry, 'name') ??
+		readOldString(entry, 'name') ??
+		readString(readOption(entry, 'sound_name')) ??
+		entry.target_id ??
+		'';
+	const result = summaryOnly({descriptor, values: {actor: actorPlaceholder(entry), name: namePlaceholder(name)}});
+	const rename = readNameChange(entry);
+	if (rename)
+		result.rows.push({
+			id: 'name',
+			tone: 'neutral',
+			sentence: {
+				descriptor: SOUNDBOARD_RENAME_ROW,
+				values: {oldName: namePlaceholder(rename.oldName), newName: namePlaceholder(rename.newName)},
+			},
+		});
+	const volume = readChange(entry, 'volume');
+	const oldVolume = readNumber(volume?.oldValue);
+	const newVolume = readNumber(volume?.newValue);
+	if (oldVolume !== null && newVolume !== null && oldVolume !== newVolume) {
+		result.rows.push({
+			id: 'volume',
+			tone: 'neutral',
+			sentence: {
+				descriptor: SOUNDBOARD_VOLUME_ROW,
+				values: {
+					oldVolume: textPlaceholder(String(Math.round(oldVolume * 100))),
+					newVolume: textPlaceholder(String(Math.round(newVolume * 100))),
+				},
+			},
+		});
+	}
+	return result;
+}
+
+export const presentSoundboardCreate = (entry: GuildAuditLogEntryResponse): AuditLogDomainResult =>
+	presentSoundboardSound(entry, SOUNDBOARD_CREATE_SUMMARY);
+export const presentSoundboardUpdate = (entry: GuildAuditLogEntryResponse): AuditLogDomainResult =>
+	presentSoundboardSound(entry, SOUNDBOARD_UPDATE_SUMMARY);
+export const presentSoundboardDelete = (entry: GuildAuditLogEntryResponse): AuditLogDomainResult =>
+	presentSoundboardSound(entry, SOUNDBOARD_DELETE_SUMMARY);
 
 function readOldString(entry: GuildAuditLogEntryResponse, key: string): string | null {
 	return readString(readChange(entry, key)?.oldValue);

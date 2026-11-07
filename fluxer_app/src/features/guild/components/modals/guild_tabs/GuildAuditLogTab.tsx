@@ -57,6 +57,7 @@ import {
 	HashIcon,
 	LinkIcon,
 	MinusIcon,
+	MusicNotesIcon,
 	PencilSimpleIcon,
 	PlugIcon,
 	PlusIcon,
@@ -163,6 +164,7 @@ const actionIconMap: Partial<Record<AuditLogActionType, IconComponent>> = {
 	[AuditLogActionType.THREAD_DELETE]: ChatsIcon,
 };
 const targetIconMap: Record<AuditLogTargetType, IconComponent> = {
+	[AUDIT_LOG_TARGET_TYPES.SOUNDBOARD]: MusicNotesIcon,
 	[AUDIT_LOG_TARGET_TYPES.ALL]: BuildingsIcon,
 	[AUDIT_LOG_TARGET_TYPES.GUILD]: GearIcon,
 	[AUDIT_LOG_TARGET_TYPES.MEMBER]: UserGearIcon,

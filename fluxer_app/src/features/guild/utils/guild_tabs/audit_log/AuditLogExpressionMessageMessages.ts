@@ -2,6 +2,12 @@
 
 import {msg} from '@lingui/core/macro';
 
+export const SOUNDBOARD_CREATE_SUMMARY = msg`{actor} added the sound {name}`;
+export const SOUNDBOARD_UPDATE_SUMMARY = msg`{actor} updated the sound {name}`;
+export const SOUNDBOARD_DELETE_SUMMARY = msg`{actor} deleted the sound {name}`;
+export const SOUNDBOARD_RENAME_ROW = msg`Renamed {oldName} to {newName}`;
+export const SOUNDBOARD_VOLUME_ROW = msg`Changed the sound volume from {oldVolume}% to {newVolume}%`;
+
 export const EMOJI_CREATE_SUMMARY = msg({
 	message: '{actor} added the emoji {emoji}',
 	comment:

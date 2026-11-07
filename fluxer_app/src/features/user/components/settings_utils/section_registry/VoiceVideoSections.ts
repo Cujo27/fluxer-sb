@@ -242,6 +242,14 @@ const VIDEO_DESCRIPTOR = msg({
 });
 export const voiceVideoSections = [
 	{
+		id: 'soundboard',
+		tabType: 'voice_video',
+		label: msg`Soundboard`,
+		description: msg`Adjust soundboard playback volume.`,
+		keywords: [msg`Soundboard`, VOLUME_DESCRIPTOR],
+		isAdvanced: false,
+	},
+	{
 		id: 'audio',
 		tabType: 'voice_video',
 		label: AUDIO_DESCRIPTOR,

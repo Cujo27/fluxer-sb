@@ -130,6 +130,7 @@ export interface HonoEnv {
 		passwordChangeService: PasswordChangeService;
 		entityAssetService: EntityAssetService;
 		entranceSoundService: EntranceSoundService;
+		soundboardService: import('@app/api/guild/services/content/SoundboardService').SoundboardService;
 		entranceSoundPlayService: EntranceSoundPlayService;
 		favoriteMemeService: FavoriteMemeService;
 		favoriteMemeRequestService: FavoriteMemeRequestService;

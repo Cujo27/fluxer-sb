@@ -147,6 +147,7 @@ export const AUDIT_LOG_TARGET_TYPES = {
 	CHANNEL: 'channel',
 	EMOJI: 'emoji',
 	STICKER: 'sticker',
+	SOUNDBOARD: 'soundboard',
 	INVITE: 'invite',
 	WEBHOOK: 'webhook',
 	MESSAGE: 'message',
@@ -161,6 +162,21 @@ export interface AuditLogActionDefinition {
 }
 
 export const AUDIT_LOG_ACTIONS: ReadonlyArray<AuditLogActionDefinition> = [
+	{
+		value: AuditLogActionType.SOUNDBOARD_SOUND_CREATE,
+		label: msg`Sound created`,
+		targetType: AUDIT_LOG_TARGET_TYPES.SOUNDBOARD,
+	},
+	{
+		value: AuditLogActionType.SOUNDBOARD_SOUND_UPDATE,
+		label: msg`Sound updated`,
+		targetType: AUDIT_LOG_TARGET_TYPES.SOUNDBOARD,
+	},
+	{
+		value: AuditLogActionType.SOUNDBOARD_SOUND_DELETE,
+		label: msg`Sound deleted`,
+		targetType: AUDIT_LOG_TARGET_TYPES.SOUNDBOARD,
+	},
 	{
 		value: AuditLogActionType.GUILD_UPDATE,
 		label: COMMUNITY_UPDATED_DESCRIPTOR,

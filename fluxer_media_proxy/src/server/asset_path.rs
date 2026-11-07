@@ -131,6 +131,12 @@ pub(in crate::server) fn parse_entrance_sound_path(path: &str) -> Option<String>
     Some(format!("entrance-sounds/{user_id}/{filename}"))
 }
 
+pub(in crate::server) fn parse_soundboard_sound_path(path: &str) -> Option<String> {
+    let id = canonical_public_path(path)?.strip_prefix("soundboard-sounds/")?;
+    let id = SnowflakeId::parse(id)?;
+    Some(format!("soundboard-sounds/{id}"))
+}
+
 const OPERATOR_WALL_AVATAR_SIZES: [u16; 7] = [48, 60, 72, 96, 120, 144, 192];
 
 pub(in crate::server) fn parse_operator_wall_avatar_path(path: &str) -> Option<String> {
@@ -232,6 +238,27 @@ pub(in crate::server) fn decode_storage_key(path: &str) -> Result<String, Storag
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn soundboard_paths_require_a_canonical_positive_snowflake() {
+        assert_eq!(
+            parse_soundboard_sound_path("/soundboard-sounds/123"),
+            Some("soundboard-sounds/123".to_owned())
+        );
+        for path in [
+            "soundboard-sounds/123",
+            "//soundboard-sounds/123",
+            "/soundboard-sounds/0",
+            "/soundboard-sounds/01",
+            "/soundboard-sounds/18446744073709551616",
+            "/soundboard-sounds/123.wav",
+            "/soundboard-sounds/123/extra",
+            "/soundboard-sounds/%31",
+            "/soundboard-sounds/../123",
+        ] {
+            assert_eq!(parse_soundboard_sound_path(path), None, "{path}");
+        }
+    }
 
     #[test]
     fn storage_keys_reject_path_changing_escapes_and_empty_components() {

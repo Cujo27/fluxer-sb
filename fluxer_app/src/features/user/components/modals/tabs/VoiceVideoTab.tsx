@@ -8,8 +8,10 @@ import inlineStyles from '@app/features/user/components/modals/tabs/TabInline.mo
 import {VideoTab} from '@app/features/user/components/modals/tabs/UserVideoTab';
 import {VoiceTab} from '@app/features/user/components/modals/tabs/UserVoiceTab';
 import {VIDEO_DESCRIPTOR} from '@app/features/user/components/settings_utils/section_registry/SharedDescriptors';
+import {SoundboardVolumeSettings} from '@app/features/voice/components/SoundboardVolumeSettings';
 import VoiceSettings from '@app/features/voice/state/VoiceSettings';
 import {MediaDeviceRefreshType, refreshMediaDeviceLists} from '@app/features/voice/utils/MediaDeviceRefresh';
+import {msg} from '@lingui/core/macro';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
@@ -26,6 +28,9 @@ const VoiceVideoSections = observer(() => {
 
 			<SettingsSection id="video" title={i18n._(VIDEO_DESCRIPTOR)} data-flx="user.voice-video-tab.video">
 				<VideoTab voiceSettings={voiceSettings} data-flx="user.voice-video-tab.video-tab" />
+			</SettingsSection>
+			<SettingsSection id="soundboard" title={i18n._(msg`Soundboard`)} data-flx="user.voice-video-tab.soundboard">
+				<SoundboardVolumeSettings data-flx="user.voice-video-tab.soundboard-volume" />
 			</SettingsSection>
 		</>
 	);

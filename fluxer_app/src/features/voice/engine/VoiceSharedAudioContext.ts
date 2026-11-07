@@ -40,6 +40,8 @@ export function canRouteVoiceAudioContextOutput(context: AudioContext): boolean 
 }
 
 export function setVoiceAudioContextOutput(context: AudioContext, sinkId: string): Promise<void> {
+	const sinkable = context as AudioContext & {setSinkId?: (id: string) => Promise<void>};
+	if (typeof sinkable.setSinkId === 'function') return sinkable.setSinkId(sinkId);
 	const route = voiceOutputRoutes.get(context);
 	if (!route || !supportsVoiceOutputElementRouting()) return Promise.resolve();
 	route.operation = route.operation

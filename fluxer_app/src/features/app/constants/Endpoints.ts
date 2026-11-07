@@ -3,6 +3,10 @@
 import {ME} from '@fluxer/constants/src/AppConstants';
 
 export const Endpoints = {
+	SOUNDBOARD_DEFAULT_SOUNDS: '/soundboard-default-sounds',
+	GUILD_SOUNDBOARD_SOUNDS: (guildId: string) => `/guilds/${guildId}/soundboard-sounds`,
+	GUILD_SOUNDBOARD_SOUND: (guildId: string, soundId: string) => `/guilds/${guildId}/soundboard-sounds/${soundId}`,
+	CHANNEL_SEND_SOUNDBOARD_SOUND: (channelId: string) => `/channels/${channelId}/send-soundboard-sound`,
 	INSTANCE_BADGES: '/instance/badges',
 	INSTANCE_SETUP_ACCOUNT_IDENTITY: '/instance/setup/account-identity',
 	INSTANCE_SETUP_TOKEN_CHECKS: '/instance/setup/token-checks',

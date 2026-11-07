@@ -38,6 +38,7 @@ COPY --chown=65532:65532 fluxer_static/desktop /srv/fluxer-static/desktop
 COPY --chown=65532:65532 --from=spellcheck-dictionaries /dictionaries /srv/fluxer-static/desktop/spellcheck/dictionaries
 COPY --chown=65532:65532 fluxer_static/email /srv/fluxer-static/email
 COPY --chown=65532:65532 fluxer_static/emoji /srv/fluxer-static/emoji
+COPY --chown=65532:65532 fluxer_static/soundboard /srv/fluxer-static/soundboard
 COPY --chown=65532:65532 fluxer_static/web /srv/fluxer-static/web
 
 RUN mkdir -p /config/caddy /data/caddy \

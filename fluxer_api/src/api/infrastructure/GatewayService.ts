@@ -1136,6 +1136,10 @@ export class GatewayService {
 		const result = await this.call<{
 			voice_states: Array<{
 				connection_id: string;
+				mute?: boolean;
+				deaf?: boolean;
+				self_deaf?: boolean;
+				suppress?: boolean;
 				user_id: string;
 				channel_id: string;
 				region_id?: string;
@@ -1144,6 +1148,10 @@ export class GatewayService {
 		}>('voice.get_voice_states_for_channel', params);
 		return {
 			voiceStates: (result.voice_states ?? []).map((vs) => ({
+				mute: vs.mute,
+				deaf: vs.deaf,
+				selfDeaf: vs.self_deaf,
+				suppress: vs.suppress,
 				connectionId: vs.connection_id,
 				userId: vs.user_id,
 				channelId: vs.channel_id,

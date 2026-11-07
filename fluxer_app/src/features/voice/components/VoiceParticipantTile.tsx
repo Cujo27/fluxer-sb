@@ -39,6 +39,7 @@ import {
 import {usePoppedOutTransition} from '@app/features/voice/components/popout/usePoppedOutTransition';
 import {VoicePopoutScopeContext} from '@app/features/voice/components/popout/VoicePopoutScopeContext';
 import {ScreenShareBufferingFrame} from '@app/features/voice/components/ScreenShareBufferingFrame';
+import {SoundboardEffectBubble} from '@app/features/voice/components/SoundboardEffectBubble';
 import {registerStreamAudioPrefsTouch} from '@app/features/voice/components/StreamAudioPrefsTouchScheduler';
 import {StreamInfoPill, type StreamInfoPillQuality} from '@app/features/voice/components/StreamInfoPill';
 import {getStreamKey} from '@app/features/voice/components/StreamKeys';
@@ -130,6 +131,7 @@ import {
 	getScreenShareWatchFailureForPublicationOperation,
 	ScreenShareWatchFailures,
 } from '@app/features/voice/state/ScreenShareWatchFailures';
+import SoundboardEffects from '@app/features/voice/state/SoundboardEffects';
 import StreamAudioPrefs from '@app/features/voice/state/StreamAudioPrefs';
 import VoiceCallLayout from '@app/features/voice/state/VoiceCallLayout';
 import VoiceSettings from '@app/features/voice/state/VoiceSettings';
@@ -303,7 +305,8 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 		? getVoiceDeafenedByModeratorsStatusLabel(i18n, isCurrentUser)
 		: getVoiceDeafenedStatusLabel(i18n, isCurrentUser);
 	const deafenStatusClassName = isModeratorDeafened ? styles.participantIconRed : styles.participantIconMuted;
-	const isActuallySpeaking = displayState.speaking;
+	const soundboardEffect = SoundboardEffects.get(channelId, userId);
+	const isActuallySpeaking = displayState.speaking || !!soundboardEffect;
 	const shouldAnimateTileAvatar = isActuallySpeaking && !Accessibility.useReducedMotion;
 	const isMobileExperience = isMobileExperienceEnabled();
 	const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -1048,6 +1051,12 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 					tabIndex={isInsideTilePopout ? undefined : 0}
 				>
 					{mediaNode}
+					{soundboardEffect && !isScreenShare && (
+						<SoundboardEffectBubble
+							effect={soundboardEffect}
+							data-flx="voice.voice-participant-tile.soundboard-effect"
+						/>
+					)}
 					{isScreenShareBuffering &&
 						!isFocusedPlaceholderTile &&
 						screenShareBufferingPresentation === 'last-frame' &&

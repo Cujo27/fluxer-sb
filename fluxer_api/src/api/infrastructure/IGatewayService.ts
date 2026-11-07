@@ -111,6 +111,10 @@ export interface GatewayVoiceStateCounts {
 }
 
 export interface GatewayVoiceStateEntry {
+	mute?: boolean;
+	deaf?: boolean;
+	selfDeaf?: boolean;
+	suppress?: boolean;
 	connectionId: string;
 	userId: string;
 	channelId: string;

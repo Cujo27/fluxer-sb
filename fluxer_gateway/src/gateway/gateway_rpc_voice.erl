@@ -173,6 +173,10 @@ normalize_voice_state_entry(VoiceState, Acc) when is_map(VoiceState) ->
             Acc;
         _ ->
             NormalizedVoiceState0 = #{
+                <<"self_deaf">> => get_map_value(VoiceState, [<<"self_deaf">>, self_deaf]) =:= true,
+                <<"mute">> => get_map_value(VoiceState, [<<"mute">>, mute]) =:= true,
+                <<"deaf">> => get_map_value(VoiceState, [<<"deaf">>, deaf]) =:= true,
+                <<"suppress">> => get_map_value(VoiceState, [<<"suppress">>, suppress]) =:= true,
                 <<"connection_id">> => ConnectionId,
                 <<"user_id">> => UserId,
                 <<"channel_id">> => ChannelId

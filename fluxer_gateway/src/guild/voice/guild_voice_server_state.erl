@@ -98,7 +98,14 @@ voice_state_rpc_entry(VS) when is_map(VS) ->
     },
     case lists:member(null, maps:values(Entry0)) of
         true -> false;
-        false -> {true, maybe_attach_voice_routing_metadata(Entry0, VS)}
+        false ->
+            WithFlags = Entry0#{
+                mute => maps:get(<<"mute">>, VS, maps:get(mute, VS, false)) =:= true,
+                deaf => maps:get(<<"deaf">>, VS, maps:get(deaf, VS, false)) =:= true,
+                self_deaf => maps:get(<<"self_deaf">>, VS, maps:get(self_deaf, VS, false)) =:= true,
+                suppress => maps:get(<<"suppress">>, VS, maps:get(suppress, VS, false)) =:= true
+            },
+            {true, maybe_attach_voice_routing_metadata(WithFlags, VS)}
     end.
 
 -spec maybe_attach_voice_routing_metadata(map(), map()) -> map().

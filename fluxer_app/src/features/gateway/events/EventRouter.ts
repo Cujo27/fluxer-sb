@@ -76,6 +76,11 @@ import {handleCallCreate} from '@app/features/voice/events/CallCreate';
 import {handleCallDelete} from '@app/features/voice/events/CallDelete';
 import {handleCallUpdate} from '@app/features/voice/events/CallUpdate';
 import {handleEntranceSoundPlay} from '@app/features/voice/events/EntranceSoundPlay';
+import {
+	handleSoundboardSoundDelete,
+	handleSoundboardSoundUpsert,
+	handleVoiceChannelEffect,
+} from '@app/features/voice/events/SoundboardEvents';
 import {handleVoiceServerUpdate} from '@app/features/voice/events/VoiceServerUpdate';
 import {handleVoiceSignal} from '@app/features/voice/events/VoiceSignal';
 import {handleVoiceStateUpdate} from '@app/features/voice/events/VoiceStateUpdate';
@@ -102,6 +107,10 @@ export type GatewayHandlerRegistry = Map<string, GatewayEventHandler>;
 
 export function createHandlerRegistry(): GatewayHandlerRegistry {
 	const registry: GatewayHandlerRegistry = new Map();
+	registry.set('GUILD_SOUNDBOARD_SOUND_CREATE', handleSoundboardSoundUpsert as GatewayEventHandler);
+	registry.set('GUILD_SOUNDBOARD_SOUND_UPDATE', handleSoundboardSoundUpsert as GatewayEventHandler);
+	registry.set('GUILD_SOUNDBOARD_SOUND_DELETE', handleSoundboardSoundDelete as GatewayEventHandler);
+	registry.set('VOICE_CHANNEL_EFFECT_SEND', handleVoiceChannelEffect as GatewayEventHandler);
 	registry.set('READY', handleReady as GatewayEventHandler);
 	registry.set('AUTH_SESSION_CHANGE', handleAuthSessionChange as GatewayEventHandler);
 	registry.set('USER_UPDATE', handleUserUpdate as GatewayEventHandler);

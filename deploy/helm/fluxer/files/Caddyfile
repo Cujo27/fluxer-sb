@@ -59,7 +59,7 @@
 		import upstream admin:8080
 	}
 
-	@staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/*
+	@staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /soundboard/*
 	handle @staticAssets {
 		import upstream static-proxy:8080
 	}

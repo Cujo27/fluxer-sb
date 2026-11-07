@@ -82,7 +82,15 @@ append_voice_state(_ChannelIdBin, _ConnId, _VS, Acc) ->
 -spec append_matching_voice_state(term(), binary(), term(), map(), [map()]) -> [map()].
 append_matching_voice_state(ChannelIdBin, ChannelIdBin, ConnId, VS, Acc) ->
     UserId = maps:get(<<"user_id">>, VS, null),
-    Entry = #{connection_id => ConnId, user_id => UserId, channel_id => ChannelIdBin},
+    Entry = #{
+        connection_id => ConnId,
+        user_id => UserId,
+        channel_id => ChannelIdBin,
+        mute => maps:get(<<"mute">>, VS, maps:get(mute, VS, false)) =:= true,
+        deaf => maps:get(<<"deaf">>, VS, maps:get(deaf, VS, false)) =:= true,
+        self_deaf => maps:get(<<"self_deaf">>, VS, maps:get(self_deaf, VS, false)) =:= true,
+        suppress => maps:get(<<"suppress">>, VS, maps:get(suppress, VS, false)) =:= true
+    },
     [Entry | Acc];
 append_matching_voice_state(_OtherChannelId, _ChannelIdBin, _ConnId, _VS, Acc) ->
     Acc.

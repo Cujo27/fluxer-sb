@@ -6,6 +6,11 @@ import {
 	MAX_SCREEN_SHARE_BITRATE_CEILING,
 	MIN_SCREEN_SHARE_BITRATE_CEILING,
 } from '@fluxer/constants/src/LimitConstants';
+import {
+	SOUNDBOARD_DURATION_MAX_MS,
+	SOUNDBOARD_MIN_DURATION_MS,
+	SOUNDBOARD_UPLOAD_MAX_BYTES,
+} from '@fluxer/constants/src/SoundboardConstants';
 
 export const LIMIT_KEYS = [
 	'avatar_max_size',
@@ -43,6 +48,9 @@ export const LIMIT_KEYS = [
 	'max_guild_roles',
 	'max_guild_stickers_more',
 	'max_guild_stickers',
+	'max_guild_soundboard_sounds',
+	'soundboard_max_size',
+	'soundboard_max_duration_ms',
 	'max_guild_visits',
 	'max_guilds',
 	'max_attachment_file_size',
@@ -97,6 +105,9 @@ export const LIMIT_KEY_SCOPES: Record<LimitKey, LimitScope> = {
 	max_guild_roles: 'guild',
 	max_guild_stickers_more: 'guild',
 	max_guild_stickers: 'guild',
+	max_guild_soundboard_sounds: 'guild',
+	soundboard_max_size: 'guild',
+	soundboard_max_duration_ms: 'guild',
 	max_guild_visits: 'user',
 	max_guilds: 'user',
 	max_attachment_file_size: 'both',
@@ -112,7 +123,16 @@ export const LIMIT_KEY_SCOPES: Record<LimitKey, LimitScope> = {
 	sticker_max_size: 'guild',
 };
 
-type LimitCategory = 'messages' | 'guilds' | 'channels' | 'expressions' | 'files' | 'social' | 'media' | 'features';
+type LimitCategory =
+	| 'messages'
+	| 'guilds'
+	| 'channels'
+	| 'expressions'
+	| 'soundboard'
+	| 'files'
+	| 'social'
+	| 'media'
+	| 'features';
 
 interface LimitKeyMetadata {
 	key: LimitKey;
@@ -131,12 +151,47 @@ export const LIMIT_CATEGORY_LABELS: Record<LimitCategory, string> = {
 	guilds: 'Guilds',
 	channels: 'Channels',
 	expressions: 'Expressions & Stickers',
+	soundboard: 'Soundboard',
 	files: 'Files & Attachments',
 	social: 'Social & Private',
 	media: 'Voice & Video',
 	features: 'Feature Toggles',
 };
 export const LIMIT_KEY_METADATA: Record<LimitKey, LimitKeyMetadata> = {
+	max_guild_soundboard_sounds: {
+		key: 'max_guild_soundboard_sounds',
+		label: 'Max Soundboard Sounds',
+		description:
+			'Maximum uploaded sounds per server. Set to 0 to disable new uploads; existing sounds remain playable.',
+		category: 'soundboard',
+		scope: 'guild',
+		isToggle: false,
+		unit: 'count',
+		min: 0,
+	},
+	soundboard_max_size: {
+		key: 'soundboard_max_size',
+		label: 'Soundboard Max Upload Size',
+		description:
+			'Maximum file size in bytes for each uploaded sound after trimming. Supported formats: MP3, OGG (Opus/Vorbis), WAV.',
+		category: 'soundboard',
+		scope: 'guild',
+		isToggle: false,
+		unit: 'bytes',
+		min: 1,
+		max: SOUNDBOARD_UPLOAD_MAX_BYTES,
+	},
+	soundboard_max_duration_ms: {
+		key: 'soundboard_max_duration_ms',
+		label: 'Soundboard Max Duration (ms)',
+		description: 'Maximum duration of each uploaded sound in milliseconds (5200 = 5.2 seconds).',
+		category: 'soundboard',
+		scope: 'guild',
+		isToggle: false,
+		unit: 'count',
+		min: SOUNDBOARD_MIN_DURATION_MS,
+		max: SOUNDBOARD_DURATION_MAX_MS,
+	},
 	max_message_length: {
 		key: 'max_message_length',
 		label: 'Max Message Length',

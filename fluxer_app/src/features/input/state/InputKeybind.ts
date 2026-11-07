@@ -715,6 +715,7 @@ const getDefaultKeybinds = (
 			action: 'voice_toggle_soundboard',
 			label: i18n._(TOGGLE_THE_SOUNDBOARD_DESCRIPTOR),
 			combo: {key: 'b', ctrlOrMeta: true, shift: true},
+			allowGlobal: true,
 			assignable: true,
 			section: 'voice_and_video',
 		},

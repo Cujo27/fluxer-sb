@@ -15,6 +15,13 @@ import {
 	STICKER_MAX_SIZE,
 } from '@fluxer/constants/src/LimitConstants';
 import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
+import {
+	SOUNDBOARD_DURATION_MAX_MS,
+	SOUNDBOARD_MAX_BYTES,
+	SOUNDBOARD_MAX_DURATION_MS,
+	SOUNDBOARD_MAX_SOUNDS,
+	SOUNDBOARD_UPLOAD_MAX_BYTES,
+} from '@fluxer/constants/src/SoundboardConstants';
 import {resolveLimit} from '@fluxer/limits/src/LimitResolver';
 import type {Guild as WireGuild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import type {GuildRole as WireGuildRole} from '@fluxer/schema/src/domains/guild/GuildRoleSchemas';
@@ -366,6 +373,21 @@ export class Guild {
 
 	get maxStickerSize(): number {
 		return this.resolveGuildLimit('sticker_max_size', STICKER_MAX_SIZE);
+	}
+
+	get maxSoundboardSounds(): number {
+		return this.resolveGuildLimit('max_guild_soundboard_sounds', SOUNDBOARD_MAX_SOUNDS);
+	}
+
+	get maxSoundboardSize(): number {
+		return Math.min(SOUNDBOARD_UPLOAD_MAX_BYTES, this.resolveGuildLimit('soundboard_max_size', SOUNDBOARD_MAX_BYTES));
+	}
+
+	get maxSoundboardDurationMs(): number {
+		return Math.min(
+			SOUNDBOARD_DURATION_MAX_MS,
+			this.resolveGuildLimit('soundboard_max_duration_ms', SOUNDBOARD_MAX_DURATION_MS),
+		);
 	}
 
 	private resolveGuildLimit(key: LimitKey, fallback: number): number {

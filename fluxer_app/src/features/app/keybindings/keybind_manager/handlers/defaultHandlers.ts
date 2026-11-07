@@ -272,7 +272,7 @@ export function registerDefaultKeybindHandlers(host: HandlerHost, i18n: I18n): v
 	});
 	host.register('voice_toggle_soundboard', ({type}) => {
 		if (type !== 'press') return;
-		ComponentBus.dispatch('SOUNDBOARD_TOGGLE');
+		ComponentBus.dispatchToFirstResult('SOUNDBOARD_TOGGLE', undefined, (result) => result === true);
 	});
 	host.register('voice_toggle_compact_call_view', ({type}) => {
 		if (type !== 'press') return;

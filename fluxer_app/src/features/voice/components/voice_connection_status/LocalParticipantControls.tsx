@@ -18,6 +18,7 @@ import {
 	openScreenSharePickerModal,
 	preloadScreenSharePickerSources,
 } from '@app/features/voice/components/modals/ScreenSharePickerModal';
+import {SoundboardButton} from '@app/features/voice/components/SoundboardButton';
 import styles from '@app/features/voice/components/VoiceConnectionStatus.module.css';
 import {VoiceCameraSettingsMenu} from '@app/features/voice/components/VoiceSettingsMenus';
 import {selectLocalParticipantControlsViewState} from '@app/features/voice/components/voice_connection_status/LocalParticipantControlsStateMachine';
@@ -194,6 +195,11 @@ export const LocalParticipantControls = observer(() => {
 	})();
 	return (
 		<>
+			<SoundboardButton
+				className={styles.mediaButton}
+				iconClassName={styles.mediaIcon}
+				data-flx="voice.local-participant-controls.soundboard"
+			/>
 			<Tooltip text={cameraLabel} data-flx="voice.voice-connection-status.local-participant-controls.tooltip">
 				<FocusRing
 					offset={-2}

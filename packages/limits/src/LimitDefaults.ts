@@ -41,6 +41,11 @@ import {
 	MAX_WEBHOOKS_PER_GUILD,
 	STICKER_MAX_SIZE,
 } from '@fluxer/constants/src/LimitConstants';
+import {
+	SOUNDBOARD_MAX_BYTES,
+	SOUNDBOARD_MAX_DURATION_MS,
+	SOUNDBOARD_MAX_SOUNDS,
+} from '@fluxer/constants/src/SoundboardConstants';
 
 export const DEFAULT_RESTRICTED_LIMITS: Record<LimitKey, number> = {
 	avatar_max_size: AVATAR_MAX_SIZE,
@@ -79,6 +84,9 @@ export const DEFAULT_RESTRICTED_LIMITS: Record<LimitKey, number> = {
 	max_guild_roles: MAX_GUILD_ROLES,
 	max_guild_stickers_more: MAX_GUILD_STICKERS_MORE_STICKERS,
 	max_guild_stickers: MAX_GUILD_STICKERS,
+	max_guild_soundboard_sounds: SOUNDBOARD_MAX_SOUNDS,
+	soundboard_max_size: SOUNDBOARD_MAX_BYTES,
+	soundboard_max_duration_ms: SOUNDBOARD_MAX_DURATION_MS,
 	max_guild_visits: 10,
 	max_guilds: 100,
 	max_message_length: MAX_MESSAGE_LENGTH_NON_PREMIUM,

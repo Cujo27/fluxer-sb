@@ -9,6 +9,7 @@ export const GLOBAL_SHORTCUT_ACTIONS = [
 	'voice_priority_vad',
 	'voice_toggle_vad',
 	'voice_toggle_camera',
+	'voice_toggle_soundboard',
 	'voice_switch_channel',
 	'voice_disconnect',
 	'system_open_account_switcher',
@@ -32,12 +33,16 @@ export const GLOBAL_SHORTCUT_DEFAULT_DESCRIPTIONS: Readonly<Record<GlobalShortcu
 	voice_priority_vad: 'Voice activity priority',
 	voice_toggle_vad: 'Toggle voice activity',
 	voice_toggle_camera: 'Toggle camera',
+	voice_toggle_soundboard: 'Open soundboard',
 	voice_switch_channel: 'Switch voice channel',
 	voice_disconnect: 'Disconnect from voice',
 	system_open_account_switcher: 'Open the account switcher',
 };
 
-const GLOBAL_SHORTCUT_WINDOW_ACTIONS: ReadonlySet<GlobalShortcutAction> = new Set(['system_open_account_switcher']);
+const GLOBAL_SHORTCUT_WINDOW_ACTIONS: ReadonlySet<GlobalShortcutAction> = new Set([
+	'system_open_account_switcher',
+	'voice_toggle_soundboard',
+]);
 
 export function globalShortcutEventRevealsWindow(channel: string, payload: unknown): boolean {
 	if (channel !== 'global-shortcut-event' || typeof payload !== 'object' || payload === null) return false;

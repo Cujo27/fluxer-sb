@@ -31,10 +31,6 @@ const TRIMMER_TITLE_DESCRIPTOR = msg({
 	message: 'Trim entrance sound',
 	comment: 'Title of the modal that lets the user crop a long audio file down to the entrance sound length cap.',
 });
-const TRIMMER_HELP_DESCRIPTOR = msg({
-	message: 'Drag the handles to choose up to 5.2 seconds of audio. The selected region is what gets uploaded.',
-	comment: 'Help text in the entrance sound trimmer modal explaining how the selection works.',
-});
 
 const USE_SELECTION_DESCRIPTOR = msg({
 	message: 'Use selection',
@@ -60,7 +56,6 @@ const COULD_NOT_DECODE_DESCRIPTOR = msg({
 
 const logger = new Logger('EntranceSoundTrimmerModal');
 
-const MAX_DURATION_SECONDS = ENTRANCE_SOUND_MAX_DURATION_MS / 1000;
 const MIN_DURATION_SECONDS = ENTRANCE_SOUND_MIN_DURATION_MS / 1000;
 const PEAK_BIN_COUNT = 600;
 
@@ -73,16 +68,27 @@ export interface TrimmedAudioResult {
 }
 
 interface EntranceSoundTrimmerModalProps {
+	title?: string;
+	maxBytes?: number;
+	maxDurationMs?: number;
 	sourceFile: File;
 	onConfirm: (result: TrimmedAudioResult) => Promise<void> | void;
 }
 
-const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = observer(({sourceFile, onConfirm}) => {
+const EntranceSoundTrimmerModal = observer((props: EntranceSoundTrimmerModalProps) => {
+	const {
+		sourceFile,
+		onConfirm,
+		title,
+		maxBytes = ENTRANCE_SOUND_MAX_BYTES,
+		maxDurationMs = ENTRANCE_SOUND_MAX_DURATION_MS,
+	} = props;
+	const maxDurationSeconds = maxDurationMs / 1000;
 	const {i18n} = useLingui();
 	const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
 	const [decodeError, setDecodeError] = useState<string | null>(null);
 	const [startSeconds, setStartSeconds] = useState(0);
-	const [endSeconds, setEndSeconds] = useState(MAX_DURATION_SECONDS);
+	const [endSeconds, setEndSeconds] = useState(maxDurationSeconds);
 	const [playheadSeconds, setPlayheadSeconds] = useState<number | null>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
@@ -110,7 +116,7 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 				const decoded = await ctx.decodeAudioData(buf.slice(0));
 				if (cancelled) return;
 				setAudioBuffer(decoded);
-				const initialEnd = Math.min(decoded.duration, MAX_DURATION_SECONDS);
+				const initialEnd = Math.min(decoded.duration, maxDurationSeconds);
 				setStartSeconds(0);
 				setEndSeconds(initialEnd);
 			} catch (decodeErr) {
@@ -125,7 +131,7 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 				void decodeContext.close().catch(() => {});
 			}
 		};
-	}, [i18n, sourceFile]);
+	}, [i18n, sourceFile, maxDurationSeconds]);
 
 	const peaks = useMemo(() => (audioBuffer ? computePeaks(audioBuffer, PEAK_BIN_COUNT) : null), [audioBuffer]);
 	const totalDuration = audioBuffer?.duration ?? 0;
@@ -251,8 +257,8 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 				endSeconds,
 				downmixToMono: true,
 			});
-			if (blob.size > ENTRANCE_SOUND_MAX_BYTES) {
-				setError(i18n._(ENCODED_TOO_LARGE_DESCRIPTOR, {limit: formatFileSize(i18n.locale, ENTRANCE_SOUND_MAX_BYTES)}));
+			if (blob.size > maxBytes) {
+				setError(i18n._(ENCODED_TOO_LARGE_DESCRIPTOR, {limit: formatFileSize(i18n.locale, maxBytes)}));
 				setSubmitting(false);
 				return;
 			}
@@ -269,10 +275,10 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 			logger.error('Failed to confirm trimmed entrance sound', error);
 			setSubmitting(false);
 		}
-	}, [audioBuffer, selectionDuration, startSeconds, endSeconds, onConfirm, stopPlayback, i18n]);
+	}, [audioBuffer, selectionDuration, startSeconds, endSeconds, onConfirm, stopPlayback, i18n, maxBytes]);
 
 	const selectionTooShort = selectionDuration < MIN_DURATION_SECONDS;
-	const selectionTooLong = selectionDuration > MAX_DURATION_SECONDS + 0.001;
+	const selectionTooLong = selectionDuration > maxDurationSeconds + 0.001;
 
 	let trimmerBody: React.ReactNode;
 	if (decodeError) {
@@ -296,7 +302,7 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 					startSeconds={startSeconds}
 					endSeconds={endSeconds}
 					minSelectionSeconds={MIN_DURATION_SECONDS}
-					maxSelectionSeconds={MAX_DURATION_SECONDS}
+					maxSelectionSeconds={maxDurationSeconds}
 					playheadSeconds={playheadSeconds}
 					onSelectionChange={handleSelectionChange}
 					data-flx="voice.entrance-sound-trimmer-modal.waveform"
@@ -307,7 +313,7 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 						data-flx="voice.entrance-sound-trimmer-modal.selection-meta"
 					>
 						<Trans>
-							Selection: {formatSeconds(selectionDuration)} (max {formatSeconds(MAX_DURATION_SECONDS)})
+							Selection: {formatSeconds(selectionDuration)} (max {formatSeconds(maxDurationSeconds)})
 						</Trans>
 					</span>
 					<span data-flx="voice.entrance-sound-trimmer-modal.range-meta">
@@ -344,7 +350,7 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 	return (
 		<Modal.Root size="small" centered data-flx="voice.entrance-sound-trimmer-modal.modal-root">
 			<Modal.Header
-				title={i18n._(TRIMMER_TITLE_DESCRIPTOR)}
+				title={title ?? i18n._(TRIMMER_TITLE_DESCRIPTOR)}
 				onClose={close}
 				data-flx="voice.entrance-sound-trimmer-modal.modal-header"
 			/>
@@ -354,7 +360,10 @@ const EntranceSoundTrimmerModal: React.FC<EntranceSoundTrimmerModalProps> = obse
 						{sourceFile.name}
 					</div>
 					<p className={styles.helpText} data-flx="voice.entrance-sound-trimmer-modal.help-text">
-						{i18n._(TRIMMER_HELP_DESCRIPTOR)}
+						<Trans>
+							Drag the handles to choose up to {formatSeconds(maxDurationSeconds)} seconds of audio. The selected region
+							is what gets uploaded.
+						</Trans>
 					</p>
 					{trimmerBody}
 				</div>

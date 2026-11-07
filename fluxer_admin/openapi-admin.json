@@ -17687,6 +17687,9 @@
 							"max_guild_roles",
 							"max_guild_stickers_more",
 							"max_guild_stickers",
+							"max_guild_soundboard_sounds",
+							"soundboard_max_size",
+							"soundboard_max_duration_ms",
 							"max_guild_visits",
 							"max_guilds",
 							"max_attachment_file_size",
@@ -19095,6 +19098,9 @@
 					"STICKER_CREATE",
 					"STICKER_UPDATE",
 					"STICKER_DELETE",
+					"SOUNDBOARD_SOUND_CREATE",
+					"SOUNDBOARD_SOUND_UPDATE",
+					"SOUNDBOARD_SOUND_DELETE",
 					"MESSAGE_DELETE",
 					"MESSAGE_BULK_DELETE",
 					"MESSAGE_PIN",
@@ -19132,6 +19138,9 @@
 					"Sticker was created",
 					"Sticker was updated",
 					"Sticker was deleted",
+					"Soundboard sound was created",
+					"Soundboard sound was updated",
+					"Soundboard sound was deleted",
 					"Message was deleted",
 					"Messages were bulk deleted",
 					"Message was pinned",
@@ -19139,7 +19148,7 @@
 				],
 				"enum": [
 					1, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 40, 41, 42, 50, 51, 52, 60, 61, 62,
-					90, 91, 92, 72, 73, 74, 75
+					90, 91, 92, 130, 131, 132, 72, 73, 74, 75
 				]
 			},
 			"Int32Type": {"type": "integer", "minimum": 0, "maximum": 2147483647, "format": "int32"},
@@ -23325,7 +23334,17 @@
 						"description": "Allows using stickers from other guilds"
 					},
 					{"name": "MODERATE_MEMBERS", "value": "1099511627776", "description": "Allows timing out users"},
+					{
+						"name": "USE_SOUNDBOARD",
+						"value": "4398046511104",
+						"description": "Allows playing soundboard sounds in voice channels"
+					},
 					{"name": "CREATE_EXPRESSIONS", "value": "8796093022208", "description": "Allows creating guild expressions"},
+					{
+						"name": "USE_EXTERNAL_SOUNDS",
+						"value": "35184372088832",
+						"description": "Allows using soundboard sounds from other guilds"
+					},
 					{"name": "PIN_MESSAGES", "value": "2251799813685248", "description": "Allows pinning messages"},
 					{"name": "BYPASS_SLOWMODE", "value": "4503599627370496", "description": "Allows bypassing slowmode"},
 					{"name": "UPDATE_RTC_REGION", "value": "9007199254740992", "description": "Allows updating the voice region"},
@@ -24112,7 +24131,7 @@
 				"type": "integer",
 				"enum": [
 					1, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 40, 41, 42, 50, 51, 52, 60, 61, 62,
-					90, 91, 92, 72, 73, 74, 75, 110, 111, 112
+					90, 91, 92, 130, 131, 132, 72, 73, 74, 75, 110, 111, 112
 				],
 				"format": "int32",
 				"x-enumNames": [
@@ -24147,6 +24166,9 @@
 					"STICKER_CREATE",
 					"STICKER_UPDATE",
 					"STICKER_DELETE",
+					"SOUNDBOARD_SOUND_CREATE",
+					"SOUNDBOARD_SOUND_UPDATE",
+					"SOUNDBOARD_SOUND_DELETE",
 					"MESSAGE_DELETE",
 					"MESSAGE_BULK_DELETE",
 					"MESSAGE_PIN",
@@ -24187,6 +24209,9 @@
 					"Sticker was created",
 					"Sticker was updated",
 					"Sticker was deleted",
+					"Soundboard sound was created",
+					"Soundboard sound was updated",
+					"Soundboard sound was deleted",
 					"Message was deleted",
 					"Messages were bulk deleted",
 					"Message was pinned",

@@ -16,6 +16,9 @@ import {
 	presentMessageDelete,
 	presentMessagePin,
 	presentMessageUnpin,
+	presentSoundboardCreate,
+	presentSoundboardDelete,
+	presentSoundboardUpdate,
 	presentStickerCreate,
 	presentStickerDelete,
 	presentStickerUpdate,
@@ -63,6 +66,9 @@ import {AuditLogActionType} from '@fluxer/constants/src/AuditLogActionType';
 import type {GuildAuditLogEntryResponse} from '@fluxer/schema/src/domains/guild/GuildAuditLogSchemas';
 
 const PRESENTERS = {
+	[AuditLogActionType.SOUNDBOARD_SOUND_CREATE]: presentSoundboardCreate,
+	[AuditLogActionType.SOUNDBOARD_SOUND_UPDATE]: presentSoundboardUpdate,
+	[AuditLogActionType.SOUNDBOARD_SOUND_DELETE]: presentSoundboardDelete,
 	[AuditLogActionType.GUILD_UPDATE]: presentGuildUpdate,
 	[AuditLogActionType.CHANNEL_CREATE]: presentChannelCreate,
 	[AuditLogActionType.CHANNEL_UPDATE]: presentChannelUpdate,

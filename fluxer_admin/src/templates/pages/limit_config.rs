@@ -26,6 +26,7 @@ const CATEGORY_ORDER: &[&str] = &[
     "guilds",
     "channels",
     "expressions",
+    "soundboard",
     "files",
     "social",
     "media",

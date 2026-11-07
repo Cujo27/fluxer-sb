@@ -15,6 +15,7 @@
 		".": "./src/index.tsx"
 	},
 	"scripts": {
+		"test": "vitest run",
 		"build": "pnpm codegen && rm -rf dist && rspack build --mode production && pnpm tsx scripts/build-sw.mjs",
 		"build:desktop": "pnpm codegen && pnpm build:renderer",
 		"build:renderer": "FLUXER_DESKTOP_RENDERER=true rspack build --mode production",
@@ -243,6 +244,7 @@
 		"xstate": "5.33.3"
 	},
 	"devDependencies": {
+		"vitest": "catalog:",
 		"@babel/parser": "8.0.8",
 		"@babel/types": "^8.1.0",
 		"@lingui/cli": "catalog:",

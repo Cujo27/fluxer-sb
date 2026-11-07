@@ -33,6 +33,7 @@ import {
 	openScreenSharePickerModal,
 	preloadScreenSharePickerSources,
 } from '@app/features/voice/components/modals/ScreenSharePickerModal';
+import {SoundboardButton} from '@app/features/voice/components/SoundboardButton';
 import {getStreamKey} from '@app/features/voice/components/StreamKeys';
 import {StreamSettingsMenuContent} from '@app/features/voice/components/StreamSettingsMenuContent';
 import styles from '@app/features/voice/components/VoiceControlBar.module.css';
@@ -646,6 +647,7 @@ const VoiceControlBarInner = observer(function VoiceControlBarInner() {
 			data-voice-call-control-bar
 			data-flx="voice.voice-control-bar.voice-control-bar-inner.container"
 		>
+			<SoundboardButton className={styles.button} data-flx="voice.voice-control-bar.soundboard" />
 			<div
 				className={styles.buttonContainer}
 				data-flx="voice.voice-control-bar.voice-control-bar-inner.button-container"

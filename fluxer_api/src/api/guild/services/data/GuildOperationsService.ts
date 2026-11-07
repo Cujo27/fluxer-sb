@@ -43,7 +43,7 @@ import {Logger} from '@app/api/Logger';
 import type {LimitConfigService} from '@app/api/limits/LimitConfigService';
 import {resolveLimitSafe} from '@app/api/limits/LimitConfigUtils';
 import {createLimitMatchContext} from '@app/api/limits/LimitMatchContextBuilder';
-import {getKVThreadAutoArchiveQueue} from '@app/api/middleware/ServiceSingletons';
+import {getKVThreadAutoArchiveQueue, getSoundboardService} from '@app/api/middleware/ServiceSingletons';
 import {Guild} from '@app/api/models/Guild';
 import type {User} from '@app/api/models/User';
 import {getGuildSearchService} from '@app/api/SearchFactory';
@@ -890,6 +890,7 @@ export class GuildOperationsService {
 			await this.channelRepository.threads.purgeGuild(guildId);
 			await getKVThreadAutoArchiveQueue().removeGuild(guildId);
 		}
+		await getSoundboardService().purgeGuild(guildId);
 		await this.guildRepository.delete(guildId, guild.ownerId);
 		await this.gatewayService.stopGuild(guildId);
 		const guildSearchService = getGuildSearchService();
