@@ -760,7 +760,7 @@ function assertSkeletonSurfaceInvariants(appDir: string): void {
 			violations.push(`${invariant.file} is missing; a skeleton surface invariant depends on it.`);
 			continue;
 		}
-		const contents = readFileSync(path, 'utf8');
+		const contents = readFileSync(path, 'utf8').replace(/\r\n/g, '\n');
 		for (const required of invariant.requires ?? []) {
 			if (!contents.includes(required)) {
 				violations.push(`${invariant.file} must contain ${JSON.stringify(required)}.`);
