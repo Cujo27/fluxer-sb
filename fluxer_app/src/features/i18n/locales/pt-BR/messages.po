@@ -44958,3 +44958,58 @@ msgstr "Mais zoom"
 #: src/features/user/components/settings_utils/search_index/KeybindsIndex.ts
 msgid "Zoom out"
 msgstr "Reduzir zoom"
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "{0} of {maxSounds} sound slots used"
+msgstr "{0} of {maxSounds} sound slots used"
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Add MP3, OGG, or WAV sounds for voice channels. Clips can be up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+msgstr "Add MP3, OGG, or WAV sounds for voice channels. Clips can be up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+
+#. English fallback; translation is needed.
+#: src/features/voice/components/SoundboardSoundModal.tsx
+msgid "Choose an MP3, OGG, or WAV clip up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+msgstr "Choose an MP3, OGG, or WAV clip up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Delete “{0}”? This cannot be undone."
+msgstr "Delete “{0}”? This cannot be undone."
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Delete {0}"
+msgstr "Delete {0}"
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Edit {0}"
+msgstr "Edit {0}"
+
+#. English fallback; translation is needed.
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Favorite {0}"
+msgstr "Favorite {0}"
+
+#. English fallback; translation is needed.
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Play {0}"
+msgstr "Play {0}"
+
+#. English fallback; translation is needed.
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Preview {0}"
+msgstr "Preview {0}"
+
+#. English fallback; translation is needed.
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Remove {0} from favorites"
+msgstr "Remove {0} from favorites"
+
+#. English fallback; translation is needed.
+#: src/features/voice/components/SoundboardSoundModal.tsx
+msgid "Sound volume: {0}%"
+msgstr "Sound volume: {0}%"

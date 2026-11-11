@@ -44958,3 +44958,47 @@ msgstr "Vergrößern"
 #: src/features/user/components/settings_utils/search_index/KeybindsIndex.ts
 msgid "Zoom out"
 msgstr "Verkleinern"
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "{0} of {maxSounds} sound slots used"
+msgstr "{0} von {maxSounds} Soundplätzen belegt"
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Add MP3, OGG, or WAV sounds for voice channels. Clips can be up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+msgstr "Füge MP3-, OGG- oder WAV-Sounds für Sprachkanäle hinzu. Nach dem Zuschneiden dürfen Clips bis zu {maxDurationSeconds} Sekunden lang und {sizeLimit} groß sein."
+
+#: src/features/voice/components/SoundboardSoundModal.tsx
+msgid "Choose an MP3, OGG, or WAV clip up to {maxDurationSeconds} seconds and {sizeLimit} after trimming."
+msgstr "Wähle einen MP3-, OGG- oder WAV-Clip, der nach dem Zuschneiden höchstens {maxDurationSeconds} Sekunden lang und {sizeLimit} groß ist."
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Delete “{0}”? This cannot be undone."
+msgstr "„{0}“ löschen? Das kann nicht rückgängig gemacht werden."
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Delete {0}"
+msgstr "{0} löschen"
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Edit {0}"
+msgstr "{0} bearbeiten"
+
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Favorite {0}"
+msgstr "{0} zu Favoriten hinzufügen"
+
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Play {0}"
+msgstr "{0} abspielen"
+
+#: src/features/guild/components/modals/guild_tabs/GuildSoundboardTab.tsx
+msgid "Preview {0}"
+msgstr "Vorschau für {0}"
+
+#: src/features/voice/components/SoundboardPicker.tsx
+msgid "Remove {0} from favorites"
+msgstr "{0} aus Favoriten entfernen"
+
+#: src/features/voice/components/SoundboardSoundModal.tsx
+msgid "Sound volume: {0}%"
+msgstr "Soundlautstärke: {0} %"
