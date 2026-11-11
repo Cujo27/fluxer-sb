@@ -1,6 +1,7 @@
 {
 	"account.age_range_not_adult": "An age range only counts here when it shows that you're 18 or older.",
 	"account.age_range_not_needed": "You don't need an age range where you are.",
+	"account.age_range_source_not_verified": "An age you only entered yourself in your Google account doesn't count here. It counts once Google has checked it, for example with a card or an ID.",
 	"account.already_claimed": "Този акаунт вече е настроен за вход от други устройства.",
 	"account.app_attest_assertion_invalid": "We couldn't confirm the age range your device sent.",
 	"account.app_attest_attestation_invalid": "We couldn't confirm this device key.",
@@ -312,6 +313,7 @@
 	"connections.invalid_type": "Типът на връзката не се поддържа.",
 	"connections.limit_reached": "Достигна максималния брой връзки ({limit}).",
 	"connections.not_found": "Неизвестна връзка.",
+	"connections.unknown_provider": "Този вид връзка не е налична на тази инстанция.",
 	"connections.verification_failed": "Проверката на връзката се провали. Увери се, че токенът за проверка е поставен правилно.",
 	"content_and_safety.content_blocked": "Това съдържание беше блокирано от системите за безопасност.",
 	"content_and_safety.explicit_content_cannot_be_sent": "Изрично съдържание не може да бъде изпратено.",

@@ -11,6 +11,7 @@ import {Logger} from '@app/features/platform/utils/AppLogger';
 import {Button} from '@app/features/ui/button/Button';
 import * as ModalCommands from '@app/features/ui/commands/ModalCommands';
 import {Spinner} from '@app/features/ui/components/Spinner';
+import {getFormattingLocale} from '@app/features/user/utils/LocaleUtils';
 import {AudioWaveform, computePeaks} from '@app/features/voice/components/AudioWaveform';
 import styles from '@app/features/voice/components/EntranceSoundTrimmerModal.module.css';
 import {resolveAudioContextConstructor} from '@app/features/voice/engine/VoiceSharedAudioContext';
@@ -218,7 +219,7 @@ const EntranceSoundTrimmerModal = observer((props: EntranceSoundTrimmerModalProp
 
 	const formatSeconds = useCallback(
 		(value: number) =>
-			getCachedNumberFormat(i18n.locale, {
+			getCachedNumberFormat(getFormattingLocale(), {
 				style: 'unit',
 				unit: 'second',
 				unitDisplay: 'narrow',
@@ -258,7 +259,11 @@ const EntranceSoundTrimmerModal = observer((props: EntranceSoundTrimmerModalProp
 				downmixToMono: true,
 			});
 			if (blob.size > maxBytes) {
-				setError(i18n._(ENCODED_TOO_LARGE_DESCRIPTOR, {limit: formatFileSize(i18n.locale, maxBytes)}));
+				setError(
+					i18n._(ENCODED_TOO_LARGE_DESCRIPTOR, {
+						limit: formatFileSize(getFormattingLocale(), maxBytes),
+					}),
+				);
 				setSubmitting(false);
 				return;
 			}

@@ -19,7 +19,6 @@ import {RateLimitMiddleware} from '@app/api/middleware/RateLimitMiddleware';
 import {OpenAPI} from '@app/api/middleware/ResponseTypeMiddleware';
 import {getVoiceTopology} from '@app/api/middleware/ServiceRegistry';
 import {getCustomBadgeCatalog} from '@app/api/middleware/ServiceSingletons';
-import {listHiddenLabsRoleIds} from '@app/api/operator_pass/OperatorPassLabsRole';
 import {RateLimitConfigs} from '@app/api/RateLimitConfig';
 import {isBillingActive, isPremiumTieringActive, isStripeServiceable} from '@app/api/stripe/BillingConfigCache';
 import type {HonoEnv} from '@app/api/types/HonoEnv';
@@ -299,6 +298,14 @@ export function InstanceController(app: Hono<HonoEnv>) {
 				instanceConfigRepository.getBuiltInBadgeImages(),
 				instanceConfigRepository.getHiddenBuiltInBadges(),
 			]);
+			const mediaService = ctx.get('mediaService');
+			const connectionProviders = [...(await instanceConfigRepository.getConnectionProviderIndex()).values()]
+				.filter(({provider}) => provider.enabled)
+				.map(({provider}) => ({
+					id: provider.id,
+					name: provider.name,
+					icon_url: provider.icon_url ? mediaService.getExternalMediaProxyURL(provider.icon_url) : null,
+				}));
 			const statusPageInstatus = await getStatusPageDetector().isInstatus(appPublicConfig.branding.status_page_url);
 			const lockReason =
 				Config.instance.selfHosted && !appPublicConfig.setup.configured
@@ -337,7 +344,7 @@ export function InstanceController(app: Hono<HonoEnv>) {
 					sso,
 					registration,
 					community,
-					services,
+					services: {...services, connection_providers: connectionProviders},
 					limits,
 				},
 			);
@@ -350,7 +357,6 @@ export function InstanceController(app: Hono<HonoEnv>) {
 				custom_badges_version: getCustomBadgeCatalog().clientVersion(badgeHead.version),
 				built_in_guild_badge_images: mapBuiltInGuildBadgeImagesForDiscovery(builtInBadgeImages),
 				hidden_built_in_guild_badges: mapHiddenBuiltInGuildBadgesForDiscovery(hiddenBuiltInBadges),
-				hidden_role_ids: listHiddenLabsRoleIds(),
 				voice_origins: listVoiceOrigins(),
 			};
 			discoveryValidators = nextDiscoveryValidators(response, discoveryValidators);

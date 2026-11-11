@@ -1,6 +1,7 @@
 {
 	"account.age_range_not_adult": "An age range only counts here when it shows that you're 18 or older.",
 	"account.age_range_not_needed": "You don't need an age range where you are.",
+	"account.age_range_source_not_verified": "An age you only entered yourself in your Google account doesn't count here. It counts once Google has checked it, for example with a card or an ID.",
 	"account.already_claimed": "Esta cuenta ya está configurada para iniciar sesión desde otros dispositivos.",
 	"account.app_attest_assertion_invalid": "We couldn't confirm the age range your device sent.",
 	"account.app_attest_attestation_invalid": "We couldn't confirm this device key.",
@@ -312,6 +313,7 @@
 	"connections.invalid_type": "El tipo de conexión no es compatible.",
 	"connections.limit_reached": "Has alcanzado el número máximo de conexiones ({limit}).",
 	"connections.not_found": "Conexión desconocida.",
+	"connections.unknown_provider": "Este tipo de conexión no está disponible en esta instancia.",
 	"connections.verification_failed": "Falló la verificación de la conexión. Asegúrate de que el token de verificación esté colocado correctamente.",
 	"content_and_safety.content_blocked": "Este contenido fue bloqueado por sistemas de seguridad.",
 	"content_and_safety.explicit_content_cannot_be_sent": "No se puede enviar contenido explícito.",

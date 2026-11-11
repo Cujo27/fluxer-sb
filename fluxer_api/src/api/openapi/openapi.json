@@ -18003,7 +18003,7 @@
 						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
 					}
 				},
-				"description": "Submits the age range that the Google Play Age Signals API reported, bound to a standard Play Integrity token. client_data holds the exact JSON bytes the app hashed, with the challenge from the Play Integrity challenge endpoint, age_lower, age_upper and age_range_source. The token must be requested with requestHash set to the SHA-256 of those bytes as unpadded base64url. Fluxer checks the token with Google Play and accepts the range only when age_lower is 18. An accepted range is stored as the adult floor with the time it was received, as with the iOS app. The token, the verdict, the range and its source are not stored. Any other range returns AGE_RANGE_NOT_ADULT with status 403 and nothing is stored. Returns PLAY_INTEGRITY_APP_NOT_RECOGNIZED when the app was not installed from Google Play, and PLAY_INTEGRITY_DEVICE_NOT_TRUSTED when the device fails the Play device check. Returns PLAY_INTEGRITY_UNAVAILABLE with status 503 when Google Play could not be asked, in which case the app should try again later with a new challenge. Returns PLAY_INTEGRITY_NOT_AVAILABLE with status 404 when this instance does not accept Play Integrity. Returns FEATURE_NOT_AVAILABLE_SELF_HOSTED with status 403 on a self-hosted instance, and AGE_RANGE_NOT_NEEDED with status 403 when the request does not come from a region where a date of birth typed in is not enough for mature content.",
+				"description": "Submits the age range that the Google Play Age Signals API reported, bound to a standard Play Integrity token. client_data holds the exact JSON bytes the app hashed, with the challenge from the Play Integrity challenge endpoint, age_lower, age_upper and age_range_source. The token must be requested with requestHash set to the SHA-256 of those bytes as unpadded base64url. Fluxer checks the token with Google Play and accepts the range only when age_lower is 18 and age_range_source is tier_c or tier_d, meaning Google checked the age itself. An adult range with tier_a (entered by the user) or tier_b (set by a parent or guardian) returns AGE_RANGE_SOURCE_NOT_VERIFIED with status 403 and nothing is stored. An accepted range is stored as the adult floor with the time it was received, as with the iOS app. The token, the verdict, the range and its source are not stored. Any other range returns AGE_RANGE_NOT_ADULT with status 403 and nothing is stored. Returns PLAY_INTEGRITY_APP_NOT_RECOGNIZED when the app was not installed from Google Play, and PLAY_INTEGRITY_DEVICE_NOT_TRUSTED when the device fails the Play device check. Returns PLAY_INTEGRITY_UNAVAILABLE with status 503 when Google Play could not be asked, in which case the app should try again later with a new challenge. Returns PLAY_INTEGRITY_NOT_AVAILABLE with status 404 when this instance does not accept Play Integrity. Returns FEATURE_NOT_AVAILABLE_SELF_HOSTED with status 403 on a self-hosted instance, and AGE_RANGE_NOT_NEEDED with status 403 when the request does not come from a region where a date of birth typed in is not enough for mature content.",
 				"security": [{"sessionToken": []}],
 				"requestBody": {
 					"required": true,
@@ -18884,6 +18884,70 @@
 					"required": true,
 					"content": {"application/json": {"schema": {"$ref": "#/components/schemas/BlueskyAuthorizeRequest"}}}
 				}
+			}
+		},
+		"/users/@me/connections/oauth/{provider_id}/authorize": {
+			"post": {
+				"operationId": "authorize_oauth_connection",
+				"summary": "Start a provider connection",
+				"tags": ["Connections"],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {"schema": {"$ref": "#/components/schemas/OAuthConnectionAuthorizeResponse"}}
+						}
+					},
+					"400": {
+						"description": "Bad Request - The request was malformed or contained invalid data",
+						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+					},
+					"401": {
+						"description": "Unauthorized - Authentication is required or the token is invalid",
+						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+					},
+					"403": {
+						"description": "Forbidden - You do not have permission to perform this action",
+						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+					},
+					"429": {
+						"description": "Too Many Requests - You are being rate limited",
+						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/ThrottledError"}}},
+						"headers": {
+							"Retry-After": {
+								"description": "Number of seconds to wait before retrying (only on 429)",
+								"schema": {"type": "integer"}
+							},
+							"X-RateLimit-Limit": {
+								"description": "The number of requests that can be made in the current window",
+								"schema": {"type": "integer"}
+							},
+							"X-RateLimit-Remaining": {
+								"description": "The number of remaining requests that can be made",
+								"schema": {"type": "integer"}
+							},
+							"X-RateLimit-Reset": {
+								"description": "Unix timestamp when the rate limit resets",
+								"schema": {"type": "integer"}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error - An unexpected error occurred",
+						"content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+					}
+				},
+				"description": "Starts connecting an account at one of the OAuth or OpenID Connect providers listed in the instance discovery document under services.connection_providers. Open authorize_url in a browser. The provider sends the browser back to the API, which adds the connection and redirects to the web app.",
+				"security": [{"sessionToken": []}],
+				"parameters": [
+					{
+						"name": "provider_id",
+						"in": "path",
+						"required": true,
+						"schema": {"$ref": "#/components/schemas/ConnectionProviderIdType"},
+						"description": "Connection provider id: lowercase letters, digits, hyphens and underscores, up to 32 characters"
+					}
+				]
 			}
 		},
 		"/users/@me/connections/reorder": {
@@ -29143,6 +29207,10 @@
 						"items": {"$ref": "#/components/schemas/SnowflakeType"}
 					},
 					"locale": {"$ref": "#/components/schemas/Locale"},
+					"regional_format": {
+						"anyOf": [{"type": "string", "pattern": "^(?:system|[a-z]{2,3}-(?:[A-Z]{2}|\\d{3}))$"}, {"type": "null"}],
+						"description": "The locale used to write dates, times and numbers, such as de-DE, or \"system\" for the device locale. Null follows the interface language. Currency follows the billing country either way."
+					},
 					"restricted_guilds": {
 						"description": "Guilds with DM restrictions",
 						"maxItems": 10000,
@@ -29227,6 +29295,10 @@
 						"description": "AFK timeout in seconds (60-600)"
 					},
 					"time_format": {"$ref": "#/components/schemas/TimeFormatTypesInput"},
+					"timestamp_format": {
+						"$ref": "#/components/schemas/TimestampFormatTypesInput",
+						"description": "Timestamp format preset"
+					},
 					"developer_mode": {"type": "boolean", "description": "Developer mode enabled"},
 					"trusted_domains": {
 						"maxItems": 1000,
@@ -29315,6 +29387,10 @@
 					},
 					"theme": {"type": "string", "description": "The UI theme preference"},
 					"locale": {"$ref": "#/components/schemas/Locale"},
+					"regional_format": {
+						"anyOf": [{"type": "string", "pattern": "^(?:system|[a-z]{2,3}-(?:[A-Z]{2}|\\d{3}))$"}, {"type": "null"}],
+						"description": "The locale used to write dates, times and numbers, such as de-DE, or \"system\" for the device locale. Null follows the interface language. Currency follows the billing country either way."
+					},
 					"restricted_guilds": {
 						"type": "array",
 						"items": {"$ref": "#/components/schemas/SnowflakeStringType"},
@@ -29397,6 +29473,10 @@
 						"$ref": "#/components/schemas/TimeFormatTypes",
 						"description": "The preferred time format setting"
 					},
+					"timestamp_format": {
+						"$ref": "#/components/schemas/TimestampFormatTypes",
+						"description": "The preferred timestamp format preset"
+					},
 					"developer_mode": {"type": "boolean", "description": "Whether developer mode is enabled"},
 					"trusted_domains": {
 						"type": "array",
@@ -29468,6 +29548,7 @@
 					"status",
 					"theme",
 					"locale",
+					"regional_format",
 					"restricted_guilds",
 					"bot_restricted_guilds",
 					"default_guilds_restricted",
@@ -29488,6 +29569,7 @@
 					"custom_status",
 					"afk_timeout",
 					"time_format",
+					"timestamp_format",
 					"developer_mode",
 					"trusted_domains",
 					"default_hide_muted_channels",
@@ -31704,9 +31786,13 @@
 			},
 			"ConnectionType": {
 				"description": "The type of external connection",
-				"x-enumNames": ["BLUESKY", "DOMAIN"],
-				"x-enumDescriptions": ["Bluesky social account connection", "Custom domain ownership connection"],
-				"enum": ["bsky", "domain"],
+				"x-enumNames": ["BLUESKY", "DOMAIN", "OAUTH"],
+				"x-enumDescriptions": [
+					"Bluesky social account connection",
+					"Custom domain ownership connection",
+					"Account at an OAuth or OpenID Connect provider set up by the instance"
+				],
+				"enum": ["bsky", "domain", "oauth"],
 				"type": "string"
 			},
 			"UpdateConnectionRequest": {
@@ -31750,9 +31836,17 @@
 					"sort_order": {
 						"description": "The display order of this connection",
 						"$ref": "#/components/schemas/Int32Type"
+					},
+					"provider_id": {
+						"description": "For oauth connections, the id of the instance connection provider, or null while that provider is removed, turned off or set to another identity provider. Null for other types",
+						"type": ["string", "null"]
+					},
+					"url": {
+						"description": "Link to the connected account or domain, when there is one",
+						"type": ["string", "null"]
 					}
 				},
-				"required": ["id", "type", "name", "verified", "visibility_flags", "sort_order"],
+				"required": ["id", "type", "name", "verified", "visibility_flags", "sort_order", "provider_id", "url"],
 				"additionalProperties": false
 			},
 			"ReorderConnectionsRequest": {
@@ -31767,6 +31861,22 @@
 					}
 				},
 				"required": ["connection_ids"]
+			},
+			"ConnectionProviderIdType": {
+				"type": "string",
+				"pattern": "^[a-z0-9][a-z0-9_-]{0,31}$",
+				"description": "Connection provider id: lowercase letters, digits, hyphens and underscores, up to 32 characters"
+			},
+			"OAuthConnectionAuthorizeResponse": {
+				"type": "object",
+				"properties": {
+					"authorize_url": {
+						"type": "string",
+						"description": "The URL to open so the user can approve the connection at the provider"
+					}
+				},
+				"required": ["authorize_url"],
+				"additionalProperties": false
 			},
 			"BlueskyAuthorizeRequest": {
 				"type": "object",
@@ -32534,7 +32644,10 @@
 				"description": "The locale code for the user interface language",
 				"x-enumNames": [
 					"AR",
+					"BE",
 					"BG",
+					"BN",
+					"CA",
 					"CS",
 					"DA",
 					"DE",
@@ -32544,6 +32657,7 @@
 					"ES_ES",
 					"ES_419",
 					"FI",
+					"FIL",
 					"FR",
 					"HE",
 					"HI",
@@ -32554,14 +32668,20 @@
 					"JA",
 					"KO",
 					"LT",
+					"LV",
 					"NL",
 					"NO",
 					"PL",
 					"PT_BR",
+					"PT_PT",
 					"RO",
 					"RU",
+					"SK",
+					"SL",
+					"SQ",
 					"SV_SE",
 					"TH",
+					"TOK",
 					"TR",
 					"UK",
 					"VI",
@@ -32570,7 +32690,10 @@
 				],
 				"x-enumDescriptions": [
 					"Arabic",
+					"Belarusian",
 					"Bulgarian",
+					"Bangla",
+					"Catalan",
 					"Czech",
 					"Danish",
 					"German",
@@ -32580,6 +32703,7 @@
 					"Spanish (Spain)",
 					"Spanish (Latin America)",
 					"Finnish",
+					"Filipino",
 					"French",
 					"Hebrew",
 					"Hindi",
@@ -32590,14 +32714,20 @@
 					"Japanese",
 					"Korean",
 					"Lithuanian",
+					"Latvian",
 					"Dutch",
 					"Norwegian",
 					"Polish",
 					"Portuguese (Brazil)",
+					"Portuguese (Portugal)",
 					"Romanian",
 					"Russian",
+					"Slovak",
+					"Slovenian",
+					"Albanian",
 					"Swedish",
 					"Thai",
+					"Toki Pona",
 					"Turkish",
 					"Ukrainian",
 					"Vietnamese",
@@ -32606,7 +32736,10 @@
 				],
 				"enum": [
 					"ar",
+					"be",
 					"bg",
+					"bn",
+					"ca",
 					"cs",
 					"da",
 					"de",
@@ -32616,6 +32749,7 @@
 					"es-ES",
 					"es-419",
 					"fi",
+					"fil",
 					"fr",
 					"he",
 					"hi",
@@ -32626,14 +32760,20 @@
 					"ja",
 					"ko",
 					"lt",
+					"lv",
 					"nl",
 					"no",
 					"pl",
 					"pt-BR",
+					"pt-PT",
 					"ro",
 					"ru",
+					"sk",
+					"sl",
+					"sq",
 					"sv-SE",
 					"th",
+					"tok",
 					"tr",
 					"uk",
 					"vi",
@@ -33052,7 +33192,7 @@
 			"ReportFlowTargetType": {
 				"description": "Kind of entity a report flow is about",
 				"x-enumNames": ["message", "user", "guild"],
-				"x-enumDescriptions": ["A message", "A user profile", "A community, on the DSA form only"],
+				"x-enumDescriptions": ["A message", "A user profile", "A community"],
 				"enum": ["message", "user", "guild"],
 				"type": "string"
 			},
@@ -39351,12 +39491,6 @@
 						"$ref": "#/components/schemas/InstanceBuiltInGuildBadgeImagesSchema"
 					},
 					"hidden_built_in_guild_badges": {"$ref": "#/components/schemas/InstanceHiddenBuiltInGuildBadgesSchema"},
-					"hidden_role_ids": {
-						"description": "IDs of roles that clients leave out wherever a member's roles are shown to other people. The roles still count for permissions and stay in role settings",
-						"maxItems": 16,
-						"type": "array",
-						"items": {"$ref": "#/components/schemas/SnowflakeStringType"}
-					},
 					"voice_origins": {
 						"description": "Origins of every voice server endpoint, such as wss://voice.example.com, for content security policies. Voice servers that share a domain are listed once as a wildcard, such as wss://*.example.com",
 						"maxItems": 1000,
@@ -39381,7 +39515,6 @@
 				],
 				"additionalProperties": false
 			},
-			"SnowflakeStringType": {"type": "string", "pattern": "^(0|[1-9][0-9]*)$", "format": "snowflake"},
 			"InstanceHiddenBuiltInGuildBadgesSchema": {
 				"maxItems": 3,
 				"type": "array",
@@ -39628,7 +39761,7 @@
 						"type": ["string", "null"]
 					},
 					"custom_css": {
-						"description": "Optional stylesheet a self-hosted instance applies to its web and desktop app, except on sign-in pages",
+						"description": "Optional stylesheet a self-hosted instance applies to its web and desktop app, including on sign-in pages",
 						"type": ["string", "null"]
 					},
 					"upload_limit_message": {
@@ -39704,9 +39837,14 @@
 					"bluesky_enabled": {
 						"type": "boolean",
 						"description": "Whether Bluesky profile connections are enabled for this instance"
+					},
+					"connection_providers": {
+						"type": "array",
+						"items": {"$ref": "#/components/schemas/InstanceConnectionProviderSchema"},
+						"description": "OAuth and OpenID Connect providers people can connect to their profile on this instance"
 					}
 				},
-				"required": ["gif_enabled", "youtube_enabled", "bluesky_enabled"],
+				"required": ["gif_enabled", "youtube_enabled", "bluesky_enabled", "connection_providers"],
 				"additionalProperties": false,
 				"description": "Optional third-party service integrations enabled for this instance"
 			},
@@ -40051,6 +40189,17 @@
 				"enum": ["open", "approval", "closed"],
 				"type": "string"
 			},
+			"InstanceConnectionProviderSchema": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "string", "description": "Provider id used in connection routes"},
+					"name": {"type": "string", "description": "Name of the provider shown to people"},
+					"icon_url": {"description": "Media proxy URL of the provider icon", "type": ["string", "null"]}
+				},
+				"required": ["id", "name", "icon_url"],
+				"additionalProperties": false,
+				"description": "A profile connection provider set up by the instance"
+			},
 			"InstancePushDeliveryModeSchema": {"type": "string", "enum": ["direct", "external_relay", "hybrid"]},
 			"AccountIdentityLockReasonSchema": {
 				"description": "Why the sign-in method can no longer change",
@@ -40087,6 +40236,7 @@
 				"pattern": "^-?[0-9]{1,19}$",
 				"description": "Display position of the badge. Badges are shown in ascending order of this value"
 			},
+			"SnowflakeStringType": {"type": "string", "pattern": "^(0|[1-9][0-9]*)$", "format": "snowflake"},
 			"BotFlags": {
 				"type": "integer",
 				"minimum": 0,
@@ -46641,6 +46791,19 @@
 					"Completely hide sensitive media"
 				]
 			},
+			"TimestampFormatTypes": {
+				"description": "Timestamp format preference",
+				"type": "integer",
+				"enum": [0, 1, 2, 3],
+				"format": "int32",
+				"x-enumNames": ["AUTO", "ISO_8601", "DAY_MONTH_YEAR", "MONTH_DAY_YEAR"],
+				"x-enumDescriptions": [
+					"Write dates the way the regional format does",
+					"Write dates as year-month-day, such as 2026-11-06 21:23",
+					"Write dates as day/month/year, such as 06/11/2026",
+					"Write dates as month/day/year, such as 11/06/2026"
+				]
+			},
 			"TimeFormatTypes": {
 				"description": "Time format preference",
 				"type": "integer",
@@ -46830,6 +46993,21 @@
 				],
 				"enum": [0, 1, 2]
 			},
+			"TimestampFormatTypesInput": {
+				"description": "Timestamp format preference",
+				"type": "integer",
+				"minimum": 0,
+				"maximum": 2147483647,
+				"format": "int32",
+				"x-enumNames": ["AUTO", "ISO_8601", "DAY_MONTH_YEAR", "MONTH_DAY_YEAR"],
+				"x-enumDescriptions": [
+					"Write dates the way the regional format does",
+					"Write dates as year-month-day, such as 2026-11-06 21:23",
+					"Write dates as day/month/year, such as 06/11/2026",
+					"Write dates as month/day/year, such as 11/06/2026"
+				],
+				"enum": [0, 1, 2, 3]
+			},
 			"TimeFormatTypesInput": {
 				"description": "Time format preference",
 				"type": "integer",
@@ -47009,6 +47187,7 @@
 					"ALREADY_FRIENDS",
 					"AGE_RANGE_NOT_ADULT",
 					"AGE_RANGE_NOT_NEEDED",
+					"AGE_RANGE_SOURCE_NOT_VERIFIED",
 					"APP_ATTEST_NOT_AVAILABLE",
 					"APP_ATTEST_KEY_NOT_REGISTERED",
 					"APP_ATTEST_KEY_IN_USE",
@@ -47313,6 +47492,7 @@
 					"UNCLAIMED_ACCOUNT_CANNOT_SUBMIT_REPORTS",
 					"UNKNOWN_BADGE",
 					"UNKNOWN_CHANNEL",
+					"UNKNOWN_CONNECTION_PROVIDER",
 					"UNKNOWN_EMOJI",
 					"UNKNOWN_ENFORCEMENT_DECISION",
 					"UNKNOWN_FAVORITE_MEME",
@@ -47401,6 +47581,7 @@
 					"You're already friends with this user.",
 					"An age range only counts here when it shows that you're 18 or older.",
 					"You don't need an age range where you are.",
+					"An age you only entered yourself in your Google account doesn't count here. It counts once Google has checked it, for example with a card or an ID.",
 					"This instance doesn't accept age ranges from the app.",
 					"This device key isn't registered with your account.",
 					"This device key is already registered to another account.",
@@ -47705,6 +47886,7 @@
 					"Claim your account to submit reports.",
 					"Badge wasn't found.",
 					"Channel wasn't found.",
+					"This kind of connection isn't available on this instance.",
 					"Unknown emoji.",
 					"Unknown enforcement decision.",
 					"Unknown saved media.",

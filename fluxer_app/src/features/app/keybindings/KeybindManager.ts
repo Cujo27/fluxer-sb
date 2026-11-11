@@ -2,6 +2,7 @@
 
 import {organizeChannels} from '@app/features/app/components/layout/utils/ChannelOrganization';
 import {
+	isTextEditingShortcutEvent,
 	keyboardEventCanRecoverStaleMacMetaPress,
 	keyboardEventMatchesCombo,
 	keyboardEventReleasesComboModifier,
@@ -53,6 +54,7 @@ import {LOCAL_SHORTCUT_ACTION_PRIORITY} from '@app/features/app/keybindings/util
 import RuntimeConfig from '@app/features/app/state/RuntimeConfig';
 import {isAccountHandoffArrival} from '@app/features/auth/state/AccountHandoffCapture';
 import Authentication from '@app/features/auth/state/Authentication';
+import {afterBootReveal} from '@app/features/boot_state/BootReveal';
 import type {Channel} from '@app/features/channel/models/Channel';
 import Channels from '@app/features/channel/state/Channels';
 import type {Guild} from '@app/features/guild/models/Guild';
@@ -519,7 +521,9 @@ class KeybindManager {
 		this.initialized = true;
 		this.ensureCombokeys();
 		this.registerDefaultHandlers(i18n);
-		await Keybind.refreshKeyboardShortcutLayout();
+		afterBootReveal(() => {
+			void Keybind.refreshKeyboardShortcutLayout();
+		});
 		this.routeSuspended = !this.isAppRoute(Navigation.pathname);
 		this.refreshLocalShortcuts();
 		this.disposers.push(
@@ -1981,6 +1985,7 @@ class KeybindManager {
 		const target = event.target ?? null;
 		if (shouldSuppressLocalShortcutForModalFocus(entry, target)) return true;
 		if (!isEditableElement(target)) return false;
+		if (isTextEditingShortcutEvent(event)) return true;
 		if (this.shouldAllowLocalShortcutFromEditable(entry, target)) {
 			return false;
 		}
@@ -1998,7 +2003,6 @@ class KeybindManager {
 	}
 
 	private shouldPreserveEditableDefaultForShortcut(entry: RuntimeKeybind, event: KeyboardEvent): boolean {
-		if (entry.preventDefaultInEditable) return false;
 		const target = event.target ?? null;
 		return entry.section === 'voice_and_video' && isEditableElement(target);
 	}

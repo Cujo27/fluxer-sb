@@ -1,6 +1,7 @@
 {
 	"account.age_range_not_adult": "An age range only counts here when it shows that you're 18 or older.",
 	"account.age_range_not_needed": "You don't need an age range where you are.",
+	"account.age_range_source_not_verified": "An age you only entered yourself in your Google account doesn't count here. It counts once Google has checked it, for example with a card or an ID.",
 	"account.already_claimed": "Denne konto er allerede sat op til at logge ind fra andre enheder.",
 	"account.app_attest_assertion_invalid": "We couldn't confirm the age range your device sent.",
 	"account.app_attest_attestation_invalid": "We couldn't confirm this device key.",
@@ -312,6 +313,7 @@
 	"connections.invalid_type": "Forbindelsestypen understøttes ikke.",
 	"connections.limit_reached": "Du har nået det maksimale antal forbindelser ({limit}).",
 	"connections.not_found": "Ukendt forbindelse.",
+	"connections.unknown_provider": "Denne slags forbindelse er ikke tilgængelig på denne instans.",
 	"connections.verification_failed": "Verifikation af forbindelsen mislykkedes. Sørg for, at verifikationstokenet er placeret korrekt.",
 	"content_and_safety.content_blocked": "Dette indhold blev blokeret af sikkerhedssystemer.",
 	"content_and_safety.explicit_content_cannot_be_sent": "Eksplicit indhold kan ikke sendes.",

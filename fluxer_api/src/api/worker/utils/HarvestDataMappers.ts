@@ -2,6 +2,7 @@
 
 import type {GuildID, UserID} from '@app/api/BrandedTypes';
 import {Config} from '@app/api/Config';
+import {parseOAuthConnectionIdentifier} from '@app/api/connection/ConnectionProviders';
 import type {UserConnectionRow} from '@app/api/database/types/ConnectionTypes';
 import type {
 	OperatorPassCertificateRow,
@@ -38,6 +39,7 @@ import {mapStorePurchaseToResponse} from '@app/api/store_billing/StoreBillingMap
 import type {ExportedAppAttestKey} from '@app/api/user/AgeRange';
 import {resolveSessionClientInfo} from '@app/api/utils/SessionClientIdentity';
 import {getAnimatedAssetExtension} from '@app/api/worker/utils/AssetArchiveHelpers';
+import {ConnectionTypes} from '@fluxer/constants/src/ConnectionConstants';
 import {PremiumFlags} from '@fluxer/constants/src/UserConstants';
 import {
 	decodeSyncedPreferencesLenient,
@@ -90,6 +92,8 @@ interface ArchivedUserSettings {
 	}>;
 	afk_timeout: number;
 	time_format: UserSettings['timeFormat'];
+	regional_format: UserSettings['regionalFormat'];
+	timestamp_format: UserSettings['timestampFormat'];
 	suppress_unprivileged_self_mentions: boolean;
 	suppress_unprivileged_self_mentions_bypass_user_ids: Array<string>;
 	staff_dm_access_user_ids: Array<string>;
@@ -392,6 +396,8 @@ export function buildUserDataJson(params: UserDataJsonParams) {
 			})),
 			afk_timeout: userSettings.afkTimeout,
 			time_format: userSettings.timeFormat,
+			regional_format: userSettings.regionalFormat,
+			timestamp_format: userSettings.timestampFormat,
 			suppress_unprivileged_self_mentions: userSettings.suppressUnprivilegedSelfMentions,
 			suppress_unprivileged_self_mentions_bypass_user_ids: Array.from(
 				userSettings.suppressUnprivilegedSelfMentionBypassUserIds,
@@ -682,6 +688,10 @@ export function buildUserDataJson(params: UserDataJsonParams) {
 		connections: connections.map((connection) => ({
 			id: connection.connection_id,
 			type: connection.connection_type,
+			provider_id:
+				connection.connection_type === ConnectionTypes.OAUTH
+					? (parseOAuthConnectionIdentifier(connection.identifier)?.providerId ?? null)
+					: null,
 			identifier: connection.identifier,
 			name: connection.name,
 			verified: connection.verified,

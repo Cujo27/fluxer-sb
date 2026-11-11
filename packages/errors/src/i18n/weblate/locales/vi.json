@@ -1,6 +1,7 @@
 {
 	"account.age_range_not_adult": "An age range only counts here when it shows that you're 18 or older.",
 	"account.age_range_not_needed": "You don't need an age range where you are.",
+	"account.age_range_source_not_verified": "An age you only entered yourself in your Google account doesn't count here. It counts once Google has checked it, for example with a card or an ID.",
 	"account.already_claimed": "Tài khoản này đã được thiết lập để đăng nhập từ các thiết bị khác.",
 	"account.app_attest_assertion_invalid": "We couldn't confirm the age range your device sent.",
 	"account.app_attest_attestation_invalid": "We couldn't confirm this device key.",
@@ -312,6 +313,7 @@
 	"connections.invalid_type": "Loại kết nối không được hỗ trợ.",
 	"connections.limit_reached": "Bạn đã đạt số lượng kết nối tối đa ({limit}).",
 	"connections.not_found": "Kết nối không xác định.",
+	"connections.unknown_provider": "Loại kết nối này không khả dụng trên phiên bản này.",
 	"connections.verification_failed": "Xác minh kết nối thất bại. Đảm bảo token xác minh được đặt đúng cách.",
 	"content_and_safety.content_blocked": "Nội dung này đã bị chặn bởi hệ thống an toàn.",
 	"content_and_safety.explicit_content_cannot_be_sent": "Không thể gửi nội dung nhạy cảm.",

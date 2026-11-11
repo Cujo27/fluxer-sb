@@ -34,6 +34,7 @@ import {
 	REMOVE_TIMEOUT_DESCRIPTOR,
 	TIMEOUT_DESCRIPTOR,
 } from '@app/features/moderation/utils/ModerationMessageDescriptors';
+import {openReportUserProfileModal} from '@app/features/moderation/utils/ReportActionUtils';
 import SelectedChannel from '@app/features/navigation/state/SelectedChannel';
 import {SoundType} from '@app/features/notification/utils/SoundUtils';
 import Permission from '@app/features/permissions/state/Permission';
@@ -72,6 +73,7 @@ import {
 	MessageUserIcon,
 	PopOutIcon,
 	RemoveFriendIcon,
+	ReportMessageIcon,
 	SelfDeafenIcon,
 	SelfMuteIcon,
 	SendFriendRequestIcon,
@@ -131,6 +133,7 @@ import UserSettings from '@app/features/user/state/UserSettings';
 import Users from '@app/features/user/state/Users';
 import {canPerform} from '@app/features/user/utils/AccountGates';
 import {blockedDmConfirmModal, openDMChannelOrShowError} from '@app/features/user/utils/DMActionUtils';
+import {getFormattingLocale} from '@app/features/user/utils/LocaleUtils';
 import * as NicknameUtils from '@app/features/user/utils/NicknameUtils';
 import * as VoiceCallLayoutCommands from '@app/features/voice/commands/VoiceCallLayoutCommands';
 import * as VoiceSettingsCommands from '@app/features/voice/commands/VoiceSettingsCommands';
@@ -181,6 +184,11 @@ const ENTRANCE_SOUND_SUBMENU_DESCRIPTOR = msg({
 const MUTE_ENTRANCE_SOUND_DESCRIPTOR = msg({
 	message: 'Mute entrance sound',
 	comment: "Voice menu checkbox label that locally silences a user's entrance sound.",
+});
+const REPORT_PARTICIPANT_DESCRIPTOR = msg({
+	message: 'Report',
+	comment:
+		'Voice and call participant menu action that reports this person to the safety team, for example for something they said or showed in the call.',
 });
 const ENTRANCE_SOUND_VOLUME_DESCRIPTOR = msg({
 	message: 'Entrance sound volume',
@@ -389,7 +397,7 @@ export function useVoiceParticipantMenuData(options: VoiceParticipantMenuDataOpt
 					VoiceRuntime.engine?.applyLocalAudioPreferencesForUser(user.id);
 				}
 			},
-			onFormat: (value: number) => formatRoundedPercentage(i18n.locale, value),
+			onFormat: (value: number) => formatRoundedPercentage(getFormattingLocale(), value),
 			factoryDefaultValue: 100,
 		});
 		const buildConnectionVolumeSlider = (targetConnectionId: string): MenuSliderType => ({
@@ -403,7 +411,7 @@ export function useVoiceParticipantMenuData(options: VoiceParticipantMenuDataOpt
 					VoiceRuntime.engine?.applyLocalAudioPreferencesForUser(user.id);
 				}
 			},
-			onFormat: (value: number) => formatRoundedPercentage(i18n.locale, value),
+			onFormat: (value: number) => formatRoundedPercentage(getFormattingLocale(), value),
 			factoryDefaultValue: 100,
 		});
 		const buildVolumeControls = (targetConnectionId?: string): Array<MenuSliderType> => {
@@ -427,7 +435,7 @@ export function useVoiceParticipantMenuData(options: VoiceParticipantMenuDataOpt
 					minValue: 0,
 					maxValue: 200,
 					onChange: (value: number) => EntranceSoundListenerPrefs.setVolume(user.id, value),
-					onFormat: (value: number) => formatRoundedPercentage(i18n.locale, value),
+					onFormat: (value: number) => formatRoundedPercentage(getFormattingLocale(), value),
 					factoryDefaultValue: 100,
 				},
 			],
@@ -1158,6 +1166,21 @@ export function useVoiceParticipantMenuData(options: VoiceParticipantMenuDataOpt
 						danger: true,
 					});
 				}
+				nextRelationshipActions.push({
+					icon: (
+						<ReportMessageIcon
+							size={16}
+							data-flx="ui.action-menu.items.voice-participant-menu-data.groups.report-message-icon"
+						/>
+					),
+					label: i18n._(REPORT_PARTICIPANT_DESCRIPTOR),
+					onClick: () => {
+						ModalCommands.runAfterBottomSheetClose(onClose, () =>
+							openReportUserProfileModal({user, guildId: guildId ?? undefined}),
+						);
+					},
+					danger: true,
+				});
 			}
 			if (nextRelationshipActions.length > 0) {
 				relationshipActions.push(...nextRelationshipActions);
