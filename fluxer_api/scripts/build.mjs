@@ -2,7 +2,7 @@
 
 import {cpSync, readdirSync, readFileSync, rmSync} from 'node:fs';
 import {isBuiltin} from 'node:module';
-import {dirname, join, resolve} from 'node:path';
+import {dirname, isAbsolute, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
 
@@ -32,6 +32,7 @@ const workspacePlugin = {
 	name: 'fluxer-workspace',
 	setup(pluginBuild) {
 		pluginBuild.onResolve({filter: /^[^./]/}, (args) => {
+			if (isAbsolute(args.path)) return undefined;
 			if (WORKSPACE_PREFIXES.some((prefix) => args.path.startsWith(prefix))) {
 				return undefined;
 			}

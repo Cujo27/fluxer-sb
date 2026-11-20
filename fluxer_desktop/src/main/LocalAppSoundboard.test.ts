@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {readFileSync} from 'node:fs';
+import {ApiAttachmentAuthorization} from '@electron/main/ApiAttachmentAuthorization';
 import {isServedLocalAppExtension, localAppContentType} from '@electron/main/LocalAppMime';
 import type {DesktopLocalAppProxyClient} from '@electron/main/LocalAppProxyClient';
 import {DesktopLocalAppRemoteResourceRequestHandler} from '@electron/main/LocalAppRemoteResourceRequestHandler';
@@ -59,6 +60,7 @@ describe('desktop soundboard audio resources', () => {
 		handler = new DesktopLocalAppRemoteResourceRequestHandler({
 			proxyClient: proxyClient as unknown as DesktopLocalAppProxyClient,
 			runtimePlans: {planForRoute: async () => plan},
+			attachmentAuthorization: new ApiAttachmentAuthorization(),
 		});
 	});
 	it('serves WAV as audio while keeping unsupported local file extensions blocked', () => {

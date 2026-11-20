@@ -174,6 +174,8 @@ function registerCronJobs(cron: CronScheduler, jobsStreamMaxAgeMs: number, kvCli
 		enabled: () => singleCommunityJoinPending(kvClient),
 	});
 	cron.upsert('liftExpiredGuildInvitePauses', 'liftExpiredGuildInvitePauses', {}, '0 * * * * *', {ledger: false});
+	cron.upsert('endExpiredPlannedJoinWaves', 'endExpiredPlannedJoinWaves', {}, '0 * * * * *', {ledger: false});
+	cron.upsert('restatePlannedJoinWaves', 'restatePlannedJoinWaves', {}, '0 20 4 * * *', {ledger: false});
 	cron.upsert('archiveInactiveThreads', 'archiveInactiveThreads', {}, '0 * * * * *', {
 		ledger: false,
 		enabled: () => true,
@@ -453,6 +455,8 @@ export async function startWorkerMain(): Promise<void> {
 				port: Config.cassandra.port,
 				keyspace: Config.cassandra.keyspace,
 				localDc: Config.cassandra.localDc,
+				consistency: Config.cassandra.consistency,
+				serialConsistency: Config.cassandra.serialConsistency,
 				username: Config.cassandra.username || undefined,
 				password: Config.cassandra.password || undefined,
 				readTimeoutMs: BACKGROUND_READ_TIMEOUT_MS,

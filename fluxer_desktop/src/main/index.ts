@@ -8,6 +8,7 @@ import {errorMessage} from '@electron/common/ErrorMessage';
 import {configureUserDataPath} from '@electron/common/UserDataPath';
 import {isAccountEngineAvailable} from '@electron/main/AccountEngineHost';
 import {startAccountEngine, stopAccountEngine} from '@electron/main/AccountEngineIpc';
+import {registerApiAttachmentAuthorizationIpc} from '@electron/main/ApiAttachmentAuthorizationIpc';
 import {
 	APP_STORE_ADDON_PACKAGE,
 	createAppStoreBoundary,
@@ -80,6 +81,7 @@ import {cleanupLegacyHarvestHandlers, registerLegacyHarvestHandlers} from '@elec
 import {initializeLegacyOriginHarvest} from '@electron/main/LegacyOriginHarvest';
 import {cleanupVirtmic, registerVirtmicHandlers} from '@electron/main/LinuxAudioCapture';
 import {ensureLinuxDesktopEntry} from '@electron/main/LinuxDesktopEntry';
+import {startLinuxLauncherBadge} from '@electron/main/LinuxLauncherBadge';
 import {cleanupDesktopLocalAppProtocol} from '@electron/main/LocalAppProtocol';
 import {initializeMainI18n, t} from '@electron/main/MainI18n';
 import {createApplicationMenu} from '@electron/main/Menu';
@@ -129,7 +131,7 @@ import {
 	GLOBAL_STORAGE_SCOPE,
 	readDesktopLegacyImportPhase,
 } from '@fluxer/desktop_ipc/src/StorageContract';
-import {app, dialog, ipcMain, netLog, session, shell} from 'electron';
+import {app, autoUpdater, dialog, ipcMain, netLog, session, shell} from 'electron';
 import log from 'electron-log';
 
 log.transports.file.level = 'info';
@@ -478,6 +480,10 @@ export function initializeMainWindowStartup(): void {
 			log.info('[Shutdown] All windows closed; keeping app alive because close-to-tray is enabled');
 		}
 	});
+	autoUpdater.on('before-quit-for-update', () => {
+		log.info('[Shutdown] before-quit-for-update received');
+		setQuitting(true);
+	});
 	app.on('before-quit', (event) => {
 		finishSyncAnswers();
 		if (deferQuitForBootStateFlush()) {
@@ -717,6 +723,11 @@ export async function startMainApp(
 			log.error('[Init] Failed to register IPC handlers:', error);
 		}
 		try {
+			runStartupPhase('api-attachment-authorization', registerApiAttachmentAuthorizationIpc);
+		} catch (error) {
+			log.error('[Init] Failed to register the attachment authorization handler:', error);
+		}
+		try {
 			runStartupPhase('autostart-handlers', registerAutostartHandlers);
 		} catch (error) {
 			log.error('[Init] Failed to register autostart handlers:', error);
@@ -814,6 +825,11 @@ export async function finishMainAppStartup(): Promise<void> {
 		runStartupPhase('linux-desktop-entry', ensureLinuxDesktopEntry);
 	} catch (error) {
 		log.error('[Init] Failed to ensure the Linux desktop entry:', error);
+	}
+	try {
+		runStartupPhase('linux-launcher-badge', startLinuxLauncherBadge);
+	} catch (error) {
+		log.error('[Init] Failed to start the Linux launcher badge:', error);
 	}
 	try {
 		runStartupPhase('jump-list', initializeJumpList);
